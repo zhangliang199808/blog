@@ -1,61 +1,81 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import Index from '@/Index'
-import SocialIndex from '@/SocialIndex'
-import SocialDetail from '@/SocialDetail'
-import SocialPost from '@/SocialPost'
+import VueRouter from 'vue-router'
+import Home from './home/home'
+import {requireContextDo} from "../utils/scanUtil";
+import store from '../store'
+import {Message, Loading} from 'element-ui';
 
-Vue.use(Router)
+Vue.use(VueRouter);
 
-export default new Router({
-  // mode: 'history',
-  // hashbang: false,
-  // history: false,
-  routes: [
-    {
-      path: '/',
-      name: 'index',
-      component: Index,
-      meta: {
-        title: '这是个圈子',
-        keepAlive: false
-      }
-    },
-    {
-      path: '/index',
-      name: 'index',
-      component: Index,
-      meta: {
-        title: '这是个圈子',
-        keepAlive: false
-      }
-    },
-    {
-      path: '/circle/:circleId',
-      name: 'circle',
-      component: SocialIndex,
-      meta: {
-        title: '这是个圈子',
-        keepAlive: false
-      }
-    },
-    {
-      path: '/post/:circleId/:postId/:onPage',
-      name: 'post',
-      component: SocialDetail,
-      meta: {
-        title: '这是个圈子',
-        keepAlive: false
-      }
-    },
-    {
-      path: '/SocialPost/:circleId',
-      name: 'SocialPost',
-      component: SocialPost,
-      meta: {
-        title: '这是个圈子',
-        keepAlive: false
-      }
-    }
-  ]
+
+const routes = []
+//批量导入路由
+let files = require.context('.', true, /.js$/);
+const modules = requireContextDo(files,['./index.js']);
+console.log(modules);
+Object.keys(modules).forEach(key => {
+  console.log(key);
+  let module = modules[key];
+  console.log(module);
+  routes.push(...module);
 })
+console.log(routes);
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+// 全局路由守卫，路由时检查用户是否登录，若无登录信息，指向登录界面
+// router.beforeEach((to, from, next) => {
+//   //判断是否记住密码
+//   if (localStorage.getItem("login_user_info") && !store.getters['User/getIsLogin']){
+//     store.commit("User/LOGIN",JSON.parse(localStorage.getItem("login_user_info")));
+//   }
+//   console.log(to, from);
+//   //检查登录状态
+//   if (to.meta.auth){
+//     //需要登录
+//     if (!store.getters['User/getIsLogin']){
+//       Message.info('需要登录后在操作');
+//       router.replace({
+//         path: "/",
+//         query:{
+//           needlogin: true
+//         }
+//       }).catch(err => {
+
+//       })
+//       return false;
+//     }
+//   }
+
+//   //访问后台
+//   //判断 是否登录了 且是管理员访问
+//   if(to.path.indexOf("/admin") !== -1){
+//     //需要登录
+//     if (!store.getters['User/getIsLogin']){
+//       Message.info('需要登录后在操作');
+//       router.replace({
+//         path: "/",
+//         query:{
+//           needlogin: true
+//         }
+//       }).catch(err => {
+
+//       })
+//       return false;
+//     }
+//     if (!store.getters['User/getUserInfo'] || store.getters['User/getUserInfo'].userOp !== 1){
+//       Message.info('非管理员');
+//       router.replace({
+//         path: "/"
+//       }).catch(err => {
+
+//       })
+//       return false;
+//     }
+//   }
+//   next();
+// });
+export default router

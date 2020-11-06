@@ -1,0 +1,23 @@
+/**  基于element-ui  **/
+
+/**
+  tabs皮肤变色
+ */
+.my-el-tabs.el-tabs
+  //height 100%
+  //line-height 100%
+  .el-tabs__header
+    /*background #E6E6E6*/
+    .el-tabs__nav-wrap
+      .el-tabs__nav-scroll
+        .el-tabs__nav
+          .el-tabs__active-bar
+            background-color var(--skin)
+          .el-tabs__item.is-active
+            color var(--skin)
+          .el-tabs__item
+            height 35px
+            line-height 35px
+            color #282828
+          .el-tabs__item:hover
+            color var(--skin)

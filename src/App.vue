@@ -1,46 +1,41 @@
 <template>
-  <div id="app" class="app clearfix">
-    <input type="hidden" id="pdLogin" value="sdd"/>
-    <router-view :key="key"></router-view>
+  <div id="app">
+    <router-view :key="active"/>
   </div>
 </template>
 
 <script>
-// import statistics from 'http://static.snail.com/js/stone/v2/statistics_ty_v2.source.js'
+  import Vue from 'vue'
 export default {
   name: 'app',
-  computed: {
-    key () {
-      return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
+  data() {
+    return {
+
     }
   },
-  mounted () {
-    const s = document.createElement('script')
-    s.type = 'text/javascript'
-    s.src = 'http://static.snail.com/js/stone/v2/statistics_ty_v2.source.js'
-    document.body.appendChild(s)
+  computed:{
+    active(){
+      return this.$store.getters.getActive;
+    }
   },
-  created: function () {
-    var vm = this
-    vm.$http({
-      url: '//moment.snail.com/api/v1/user/info',
-      method: 'jsonp',
-      jsonp: 'callback',
-      emulateJSON: true,
-      headers: {
-        'Content-Type': 'x-www-from-urlencoded'
+  mounted(){
+    //刷新路由方法
+    Vue.prototype._refreshPage = ()=>{
+      this.$store.commit("ADD_ACTIVE");
+    }
+
+    window.addEventListener("resize",() => {
+      let clientWidth = document.body.clientWidth;
+      if (clientWidth){
+        this.$store.commit("SET_ISMOBILE",clientWidth < 992);
       }
-    }).then(function (res) {
-      if (res.data.code === 200) {
-        document.getElementById('pdLogin').value = 'true'
-      } else {
-        document.getElementById('pdLogin').value = 'false'
-      }
-    })
-  }
+
+    });
+    let clientWidth = document.body.clientWidth;
+    this.$store.commit("SET_ISMOBILE",clientWidth < 992);
+  },
 }
 </script>
 
-<style >
-   @import './sass/stylesheets/SocialPublic.css'
+<style>
 </style>
