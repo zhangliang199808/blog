@@ -21,7 +21,7 @@
   import HomeLayout from "./components/HomeLayout";
   import Page from "../../components/Page";
   import Hitokoto from "../../components/Hitokoto";
-  import {apiLogin} from "@/api/login.js"
+  import {apiTest} from "@/api/login.js"
   export default {
     name: "Home",
     components: {Hitokoto, Page, HomeLayout, HomeRight, TabComponent, ArticleCard, UserInfoCard},

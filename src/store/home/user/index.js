@@ -5,10 +5,8 @@ import actions from './actions'
 
 
 const state = {
-  isLogin: false,
-  userInfo: {
-
-  }
+  isLogin: Boolean(localStorage.getItem('token')) || false,
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) || {}
 }
 
 // 向外暴露该对象(系统状态管理)

@@ -11,7 +11,7 @@ Vue.config.productionTip = false;
 //引入常量
 Vue.prototype.$const = require('./utils/const').default;
 Vue.prototype.$utils = require('./utils/index').default;
-
+// Vue.prototype.$store = store
 
 new Vue({
   router,

@@ -17,3 +17,13 @@ export function apiRegister(data) {
     data
   })
 }
+
+// 测试接口
+export function apiTest(data) {
+  return request({
+    url: '/index/',
+    method: 'get',
+    data
+  })
+}
+
