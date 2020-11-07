@@ -6,14 +6,14 @@ export default {
 
   //登录
   LOGIN(state,params){
-    localStorage.setItem("login_user_info",JSON.stringify(params));
+    localStorage.setItem("userInfo",JSON.stringify(params));
     state.isLogin = true;
     state.userInfo = params;
   },
 
   //注销
   LOGOUT(state){
-    localStorage.removeItem("login_user_info");
+    localStorage.removeItem("userInfo");
     state.isLogin = false;
     state.userInfo = null;
   },

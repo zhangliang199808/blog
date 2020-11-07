@@ -78,7 +78,6 @@ export default {
           data.append("password", this.form.password);
           apiLogin(data).then((res) => {
             if (res.code == 200) {
-              console.log(res, "参数");
               this.$store.commit('User/LOGIN',res.data);
               localStorage.setItem('token',res.data.token)
               this.close();

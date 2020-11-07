@@ -10,13 +10,16 @@
         <el-form-item prop="userName">
           <el-input v-model="form.userName" placeholder="请输入用户账号"></el-input>
         </el-form-item>
+        <el-form-item prop="phone">
+          <el-input type="text" v-model="form.phone" placeholder="请输入手机号"></el-input>
+        </el-form-item>
         <el-form-item prop="password">
           <el-input type="password" show-password v-model="form.password" placeholder="请输入用户密码"></el-input>
         </el-form-item>
         <el-form-item prop="confirmPassword">
           <el-input type="password" show-password v-model="form.confirmPassword" placeholder="请再次输入用户密码"></el-input>
         </el-form-item>
-        <el-form-item prop="email">
+        <!-- <el-form-item prop="email">
           <el-input type="email" v-model="form.email" placeholder="邮箱号"></el-input>
         </el-form-item>
         <el-form-item>
@@ -30,7 +33,7 @@
               {{codeSeconds > 0 ? codeSeconds : '发送'}}
             </el-button>
           </el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-button style="width: 100%;" class="my-button-style-skin" @click="submit">开始注册</el-button>
       </el-form>
       <div slot="footer" style="text-align: center;">
@@ -45,6 +48,7 @@
 
 <script type="text/ecmascript-6">
   import Captch from "../../../components/Captch";
+  import {apiRegister} from "@/api/login"
   export default {
     name: "RegisterDialog",
     components: {Captch},
@@ -55,8 +59,9 @@
           userName: null,
           password: null,
           confirmPassword: null,
-          email: null,
-          emailCode: null
+          phone: null
+          // email: null,
+          // emailCode: null
         },
         formRules:{
           userName: [
@@ -68,13 +73,16 @@
           confirmPassword: [
             { required: true, message: '确认密码不能为空', trigger: 'blur' }
           ],
-          email: [
-            { required: true, message: '邮箱不能为空', trigger: 'blur' },
-            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
-          ],
-          emailCode: [
-            { required: true, message: '邮箱验证码不能为空', trigger: 'blur' }
-          ],
+          phone: [
+            { required: true, message: '手机号不能为空', trigger: 'blur' }
+          ]
+          // email: [
+          //   { required: true, message: '邮箱不能为空', trigger: 'blur' },
+          //   { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
+          // ],
+          // emailCode: [
+          //   { required: true, message: '邮箱验证码不能为空', trigger: 'blur' }
+          // ],
         },
         code: null,
         token: null,
@@ -93,11 +101,21 @@
       submit(){
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let params = this.form;
-            this.$store.dispatch("User/register",params).then(res=>{
-              this.$message.success("注册成功");
-              this.openLogin();
-            })
+            let data = new FormData()
+            data.append('username',this.form.userName)
+            data.append('password',this.form.password)
+            data.append('mobile',this.form.phone)
+            data.append('password2',this.form.confirmPassword)
+            apiRegister(data)
+              .then(res => {
+                console.log(res,'注册结果')
+                if (res.code == 200) {
+                  this.$message.success("注册成功");
+                  this.openLogin();
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
           }
         })
       },
