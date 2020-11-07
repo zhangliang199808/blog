@@ -8,3 +8,21 @@ export function apiCreatArticle(data) {
     data
   })
 }
+
+// 获取文章分类
+export function apiArticleType(data) {
+    return request({
+      url: '/all/category/',
+      method: 'get',
+      data
+    })
+}
+
+// 上传文章图片或文件
+export function apiUploadImgOrFile(data) {
+    return request({
+      url: '/upload/file/',
+      method: 'post',
+      data
+    })
+}

@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import router from '../router/index'
+import store from '../store/index'
 
 const service = axios.create({
     baseURL: '/api',
@@ -25,6 +26,10 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
     response => {
+        if (response.status == 400) {
+            store.commit("User/LOGOUT")
+            router.replace({path:'/'})
+        }
         if (response.status === 200) {
             return response.data;
         } else {

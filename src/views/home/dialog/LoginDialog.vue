@@ -70,7 +70,6 @@ export default {
     },
 
     submit() {
-      console.log()
       this.$refs.form.validate((valid) => {
         if (valid) {
           let data = new FormData();

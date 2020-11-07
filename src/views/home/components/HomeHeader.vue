@@ -83,7 +83,7 @@
     },
     computed:{
       isLogin(){
-        return this.$store.getters['User/getIsLogin'];
+        return this.$store.state.User.isLogin;
       },
       userInfo(){
         return this.$store.getters['User/getUserInfo'];

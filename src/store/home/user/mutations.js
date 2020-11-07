@@ -14,6 +14,7 @@ export default {
   //注销
   LOGOUT(state){
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("token");
     state.isLogin = false;
     state.userInfo = null;
   },
