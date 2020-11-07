@@ -31,7 +31,7 @@ export function getArticClass(data){
   return request ({
     url:"/all/category/",
     method:"get",
-data
+    data
   })
 }
 //文章列表
@@ -40,6 +40,14 @@ export function getArticList(data){
   return request ({
     url:'/category/article/',
     method:"get",
-params:data
+    params:data
+  })
+}
+
+export function apiUploadHardImg(data){
+  return request ({
+    url:'/change/head/photo/',
+    method:"post",
+    data
   })
 }

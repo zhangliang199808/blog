@@ -28,7 +28,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="密码安全" name="password">
+          <!-- <el-tab-pane label="密码安全" name="password">
             <el-form ref="passwordForm" :model="passwordForm" :rules="passwordFormRules" label-width="120px">
               <el-row :gutter="10">
                 <el-col :md="10">
@@ -93,7 +93,7 @@
                 <el-button class="my-button-style-skin" @click="saveNotifyConfigs">修  改</el-button>
               </el-form-item>
             </el-form>
-          </el-tab-pane>
+          </el-tab-pane> -->
         </template>
       </el-tabs>
     </el-card>
@@ -172,15 +172,6 @@
       },
       isMy(){
         return this.userInfo && this.userInfo.user_id === this.userId;
-      }
-    },
-    watch: {
-      "$route.query"(){
-        if (this.$route.query.type){
-          this.activeName = this.$route.query.type;
-        }else{
-          this.activeName = "article";
-        }
       }
     },
     mounted(){
@@ -278,6 +269,7 @@
       },
       //文件上传
       fileUpload(e){
+        console.log(e,'文件上传')
         let files = e.target.files;
         if (files.length === 0){
           this.$message.info("请选择图片");
@@ -285,20 +277,21 @@
         }
         let file = files[0];
         let data = new FormData()
+        console.log(e,'kankan')
         data.append('head_photo',file)
         apiUploadHardImg(data)
           .then (res => {
             console.log(res,'头像返回数据')
             if (res.code == 200) {
               this.$message.success('修改成功')
+              let userInfoObj = this.settingForm
+              userInfoObj.photo_url = res.data.head_photo
+              this.settingForm = userInfoObj
+              this.$store.commit("User/UPDATE_USERINFO",userInfoObj);
             } else {
               this.$message.error(res.message)
             }
           })
-        this.$store.dispatch("uploadImage",file).then(res=>{
-          this.settingForm.userFace = res.data;
-        })
-        console.log('fileUpload',file);
       }
     },
   }

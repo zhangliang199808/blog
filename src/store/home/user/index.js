@@ -6,7 +6,7 @@ import actions from './actions'
 
 const state = {
   isLogin: Boolean(localStorage.getItem('token')) || false,
-  userInfo: JSON.parse(localStorage.getItem('userInfo')) || {}
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) || null
 }
 
 // 向外暴露该对象(系统状态管理)
