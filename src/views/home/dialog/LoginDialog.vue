@@ -79,8 +79,8 @@ export default {
           apiLogin(data).then((res) => {
             if (res.code == 200) {
               console.log(res, "参数");
-              this.$store.commit('User/LOGIN',res);
-              localStorage.setItem('token',res.token)
+              this.$store.commit('User/LOGIN',res.data);
+              localStorage.setItem('token',res.data.token)
               this.close();
             }
           });
