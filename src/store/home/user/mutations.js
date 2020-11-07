@@ -22,6 +22,6 @@ export default {
   //更新部分用户信息
   UPDATE_USERINFO(state,userInfo){
     state.userInfo = {...state.userInfo,...userInfo};
-    localStorage.setItem("login_user_info",JSON.stringify(state.userInfo));
+    localStorage.setItem("userInfo",JSON.stringify(state.userInfo));
   }
 }
