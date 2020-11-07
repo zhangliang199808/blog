@@ -5,8 +5,12 @@ import store from './store'
 import './plugins/element.js'
 import './assets/styles/index.styl'
 import './vendor/codemirror'
+import './assets/styles/custom.css' // 自定义样式
 import 'highlight.js/styles/github.css' //样式文件
+import mavonEditor from 'mavon-editor' // 文本编辑器
+import 'mavon-editor/dist/css/index.css'
 
+Vue.use(mavonEditor)
 Vue.config.productionTip = false;
 //引入常量
 Vue.prototype.$const = require('./utils/const').default;

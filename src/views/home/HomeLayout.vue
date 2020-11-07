@@ -1,13 +1,13 @@
 <template>
   <div class="home-manager" :class="isMobile ? 'mobile' : 'pc'">
-    <header class="layout">
+    <header class="layout add-index">
       <home-header />
       <!--<home-menu />-->
     </header>
     <main class="layout" :class="'route-' + route">
       <router-view/>
     </main>
-    <footer class="layout">
+    <footer class="layout add-index">
       <home-footer />
     </footer>
   </div>
@@ -53,7 +53,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 5;
+    z-index: 9999;
   }
   > main{
     flex: 1;
