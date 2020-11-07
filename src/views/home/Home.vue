@@ -20,6 +20,12 @@
           <Scroller :lists="list1" class="scrollContainer" />
         </div>
 
+          <el-carousel >
+            <el-carousel-item v-for="(item,index) in imglist" :key="index">
+              <!-- <h3 class="small">{{ item }}</h3> -->
+              <img :src="item.banner_image_url" alt="" style="width:100%;height:100%"/>
+            </el-carousel-item>
+          </el-carousel>
         <el-card class="box-card article-list-card">
           <tab-component
             slot="header"
@@ -34,15 +40,16 @@
             easy
             :key="index"
           ></article-card>
-      <!-- @size-change="onSizeChange" -->
+          <!-- @size-change="onSizeChange" -->
           <el-pagination
-      @current-change="onCurrentChange"
-      style="text-align: center;"
-      :current-page="page.current"
-      :page-size="page.size"
-      layout="prev, pager, next"
-      :total="page.total">
-    </el-pagination>
+            @current-change="onCurrentChange"
+            style="text-align: center"
+            :current-page="page.current"
+            :page-size="page.size"
+            layout="prev, pager, next"
+            :total="page.total"
+          >
+          </el-pagination>
         </el-card>
       </template>
     </home-layout>
@@ -60,7 +67,7 @@ import Hitokoto from "../../components/Hitokoto";
 import Scroller from "../../components/scroller";
 // import 'swiper/dist/css/swiper.css'
 // import {swiper,swiperSlide} from "vue-awesome-swiper"
-import { apiTest, getArticList ,getArticClass} from "@/api/login.js";
+import { apiTest, getArticList, getArticClass } from "@/api/login.js";
 export default {
   name: "Home",
   components: {
@@ -111,10 +118,11 @@ export default {
       ],
       datas: [],
       page: {
-          current: 1,
-          total: 10,
-          size: 10
-        }
+        current: 1,
+        total: 10,
+        size: 10,
+      },
+        imglist:[]
     };
   },
   watch: {
@@ -125,7 +133,7 @@ export default {
   mounted() {
     // this.loadList();
     this.getlist();
-    this.getArticClass()
+    this.getArticClass();
   },
   methods: {
     //轮播图  公告
@@ -135,57 +143,58 @@ export default {
         console.log(res.data);
         // this.tabs = res.data[0].index_category_data; //分类数据
         this.list1 = res.data[1].index_notice_data; //公告
+        this.imglist = res.data[2].index_banner_data;
         // this.datas = res.data[3].index_article_data;
       });
     },
     // 获取文章分类
-    getArticClass(){
-      getArticClass().then(res=>{
-        console.log(res.data)
-        this.tabs = res.data
-        this.getArtic()
-      })
+    getArticClass() {
+      getArticClass().then((res) => {
+        console.log(res.data);
+        this.tabs = res.data;
+        this.getArtic();
+      });
     },
     // 获取文章列表
     getArtic() {
-      console.log(this.activeTab)
-      var formdata = new FormData()
-      
-      formdata.append('category_id',this.activeTab)
-      formdata.append('page_num',1)
-      let data= {
-        category_id:this.activeTab,
-        page_num:this.page.current
-      }
-      console.log(formdata.get('category_id'))
-      getArticList(data).then(res=> {
+      console.log(this.activeTab);
+      var formdata = new FormData();
+
+      formdata.append("category_id", this.activeTab);
+      formdata.append("page_num", 1);
+      let data = {
+        category_id: this.activeTab,
+        page_num: this.page.current,
+      };
+      console.log(formdata.get("category_id"));
+      getArticList(data).then((res) => {
         console.log(res);
-        this.datas = res.data
-        this.page.total = res.total_number
-        this.page.current = res.now_page
-        // this.page.total = 
+        this.datas = res.data;
+        this.page.total = res.total_number;
+        this.page.current = res.now_page;
+        // this.page.total =
       });
     },
     // 切换分类
     onChangList(item) {
       console.log(item);
-        this.page.current = 1;
+      this.page.current = 1;
       this.activeTab = item.category_id;
-      this.getArtic() 
+      this.getArtic();
       // this.loadList();
     },
 
-      onCurrentChange(current){
-        console.log(current)
-        this.page.current = current;
-        // this.$emit('change');
-        this.getArtic()
-      },
+    onCurrentChange(current) {
+      console.log(current);
+      this.page.current = current;
+      // this.$emit('change');
+      this.getArtic();
+    },
 
-      onSizeChange(size){
-        // this.page.size = size;
-        // this.$emit('change');
-      },
+    onSizeChange(size) {
+      // this.page.size = size;
+      // this.$emit('change');
+    },
     loadList(num) {
       console.log(num);
       // this.getArtic(num)
@@ -230,7 +239,7 @@ export default {
   font-size: 16px;
   margin-left: 10px;
   height: 100%;
-  width 100%;
+  width: 100%;
   // border: 1px solid #000;
   // line-height: 30px;
   overflow: hidden;
