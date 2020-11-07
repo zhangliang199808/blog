@@ -19,6 +19,10 @@
           <span :title="article.article_created_time">
             {{$utils.quickTimeago(article.article_created_time)}}
           </span>
+          <span> · </span>
+          <span >
+            {{article.article_excerpt}}
+          </span>
         </span>
         <span>
           <i class="el-icon-view" title="阅读量"> {{article.article_views}}</i>&nbsp;&nbsp;

@@ -61,6 +61,8 @@ ul  {
   height: 100%;
   margin-right: 100%;
   display: inline-block;
+  color:red;
+  font-weight: 700;
 }
 #marquee {
   /* display: inline-block;
