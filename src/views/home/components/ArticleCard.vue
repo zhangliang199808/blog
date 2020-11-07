@@ -1,12 +1,12 @@
 <template>
   <div class="article-card" :class="{'delete-status': article.articleStatus === 0 }">
     <user-info-show-card :userDTO="article.userDTO">
-      <el-avatar v-if="!noFace" style="cursor: pointer;" @click="goUserPage" :size="50" :src="article.userDTO.userFace"></el-avatar>
+      <el-avatar v-if="!noFace" style="cursor: pointer;" @click="goUserPage" :size="50" :src="article.article_user_head_photo"></el-avatar>
     </user-info-show-card>
     <div class="article-box">
-      <el-link @click="goArticlePage" class="title my-el-link">{{article.articleTitle}}</el-link>
+      <el-link @click="goArticlePage" class="title my-el-link">{{article.article_title}}</el-link>
       <div class="content" v-show="!easy">
-        {{article.articleContent}}
+        {{article.article_user}}
       </div>
       <div class="info">
         <span>
@@ -14,16 +14,16 @@
             <topic-item :name="topic" :key="index"></topic-item>
             <span> · </span>
           </template>
-          <el-link @click="goUserPage" class="author-name my-el-link" style="vertical-align: unset;">{{article.userDTO.userNick}}</el-link>
+          <el-link @click="goUserPage" class="author-name my-el-link" style="vertical-align: unset;">{{article.article_username}}</el-link>
           <span> · </span>
-          <span :title="article.articleAddTime">
-            {{$utils.quickTimeago(article.articleAddTime)}}
+          <span :title="article.article_created_time">
+            {{$utils.quickTimeago(article.article_created_time)}}
           </span>
         </span>
         <span>
-          <i class="el-icon-view" title="阅读量"> {{article.articleView}}</i>&nbsp;&nbsp;
+          <i class="el-icon-view" title="阅读量"> {{article.article_views}}</i>&nbsp;&nbsp;
           <!--<i class="el-icon-star-off" title="收藏量">2222</i>&nbsp;&nbsp;-->
-          <i class="el-icon-chat-line-round" title="评论"> {{article.articleCommentCount}}</i>
+          <!-- <i class="el-icon-chat-line-round" title="评论"> {{article.article_user}}</i> -->
         </span>
       </div>
     </div>

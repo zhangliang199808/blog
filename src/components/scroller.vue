@@ -2,7 +2,7 @@
   <div class="wrap">
     <ul id="marquee">
       <li class="scorlllist" v-for="(item, index) in lists" :key="index">
-        {{ item }}
+        {{ item.notice_title }}
       </li>
        
     </ul>
@@ -40,7 +40,7 @@ export default {
 /*样式的话可以写*/
 .wrap  {
   overflow: hidden;
-  /* width: 100%; */
+  width: 100%;
 }
 #box  {
   height: 100%;
