@@ -35,7 +35,7 @@
       <li>
         <el-dropdown @command="onUserCommand" style="display: flex;align-items: center;height: 100%;">
           <template v-if="isLogin">
-            <el-avatar :size="30" :src="userInfo.userFace"></el-avatar>
+            <el-avatar :size="30" :src="userInfo.photo_url"></el-avatar>
           </template>
           <template v-else>
             <i style="color: var(--skin-font);font-size: 16px;" class="el-icon-user"></i>
