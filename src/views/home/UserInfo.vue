@@ -9,14 +9,11 @@
               <el-row :gutter="10">
                 <el-col :md="10">
                   <el-form-item label="用户名：">
-                    {{userInfo.username}}
+                    <el-input  v-model="settingForm.username"></el-input>
                   </el-form-item>
                   <el-form-item label="用户头像：" prop="photo_url">
                     <el-avatar :size="60" :src="settingForm.photo_url"></el-avatar>
                     <input style="opacity:0;width:100%;height:100%;position:absolute;top:0;left:0"  type="file" @change="fileUpload">
-                  </el-form-item>
-                  <el-form-item label="用户昵称：" prop="username">
-                    <el-input  v-model="settingForm.username"></el-input>
                   </el-form-item>
                   <!-- <el-form-item label="用户签名：">
                     <el-input :rows="4" type="textarea" v-model="settingForm.userDesc"></el-input>
@@ -190,11 +187,13 @@
       updateUserInfo(){
         this.$refs.settingForm.validate((valid) => {
           if (valid) {
-            this.$store.dispatch('User/updateUserInfo',this.settingForm).then(res=>{
-              //更新用户资料
-              this.$store.commit("User/UPDATE_USERINFO",this.settingForm);
-              this.$refs.userInfoCard.getUserInfoById(this.userInfo.userId);
-            })
+            console.log(111111)
+            return false
+            // this.$store.dispatch('User/updateUserInfo',this.settingForm).then(res=>{
+            //   //更新用户资料
+            //   this.$store.commit("User/UPDATE_USERINFO",this.settingForm);
+            //   this.$refs.userInfoCard.getUserInfoById(this.userInfo.userId);
+            // })
           }
         });
 

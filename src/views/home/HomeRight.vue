@@ -36,9 +36,15 @@
     },
     methods: {
       goWrite() {
-        this.$router.push({
-          path: "/writeArticle"
-        })
+        let isLogin = this.$store.state.User.isLogin || false
+        if (isLogin) {
+          this.$router.push({
+            path: "/writeArticle"
+          })
+        } else {
+          this.$message.info('请先登录')
+        }
+        
       },
       getHotTopics(){
         this.$store.dispatch('Topic/getHotTopics').then(res=>{
