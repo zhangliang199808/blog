@@ -1,7 +1,7 @@
 <template>
   <div class="tab-component">
     <ul>
-      <li v-for="item in list" @click="clickHandler(item)" :class="{'active': active === item[valueName]}">{{item[labelName]}}</li>
+      <li v-for="item in list" @click="clickHandler(item)"  :class="{'active': active === item[valueName]}">{{item[labelName]}}</li>
     </ul>
   </div>
 </template>
@@ -11,14 +11,14 @@
     name: "TabComponent",
     props:{
       list: Array,
-      value: String,
+      value: Number,
+       valueName: {
+        type: String,
+        default: "category_id"
+      },
       labelName:{
         type: String,
-        default: "label"
-      },
-      valueName:{
-        type: String,
-        default: "value"
+        default: "category_name"
       }
     },
     data() {
@@ -36,7 +36,9 @@
     },
     methods: {
       clickHandler(item) {
+        // console.log(item)
         this.active = item[this.valueName];
+        // console.log(this.active)
         this.$emit('change',item);
         this.$emit('input',this.active);
       }

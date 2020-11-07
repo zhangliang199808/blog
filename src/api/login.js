@@ -18,15 +18,6 @@ export function apiRegister(data) {
   })
 }
 
-// 上传用户头像
-export function apiUploadHardImg(data) {
-  return request({
-    url: '/change/head/photo/',
-    method: 'post',
-    data
-  })
-}
-
 // 测试接口
 export function apiTest(data) {
   return request({
@@ -35,4 +26,20 @@ export function apiTest(data) {
     data
   })
 }
+//文章分类
+export function getArticClass(data){
+  return request ({
+    url:"/all/category/",
+    method:"get",
+data
+  })
+}
+//文章列表
 
+export function getArticList(data){
+  return request ({
+    url:'/category/article/',
+    method:"get",
+params:data
+  })
+}
