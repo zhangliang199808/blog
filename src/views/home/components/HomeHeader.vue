@@ -142,7 +142,7 @@
         }
         if (command === "goUserInfo"){
           this.$router.push({
-            path: "/user/" + this.$store.getters['User/getUserInfo'].userId
+            path: "/user/" + this.$store.getters['User/getUserInfo'].user_id
           })
         }
         if (command === "admin"){

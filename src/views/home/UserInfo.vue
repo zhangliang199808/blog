@@ -1,31 +1,26 @@
 <template>
   <div class="UserInfo">
     <el-card class="box-card">
-      <user-info-card :userId="userId" ref="userInfoCard" easy></user-info-card>
+      <user-info-card ref="userInfoCard" easy></user-info-card>
       <el-tabs class="my-el-tabs" v-model="activeName" >
-        <el-tab-pane label="文章列表" name="article">
-          <article-card v-for="(item,index) in datas" :article="item" easy :key="index"></article-card>
-          <page ref="page" @change="list"></page>
-        </el-tab-pane>
-        <template v-if="isMy">
+        <template>
           <el-tab-pane label="个人设置" name="setting">
             <el-form ref="settingForm" :model="settingForm" :rules="settingFormRules" label-width="120px">
               <el-row :gutter="10">
                 <el-col :md="10">
                   <el-form-item label="用户名：">
-                    {{userInfo.userName}}
+                    {{userInfo.username}}
                   </el-form-item>
-                  <el-form-item label="用户头像：" prop="userFace">
-                    <el-avatar :size="60" :src="settingForm.userFace"></el-avatar>
+                  <el-form-item label="用户头像：" prop="photo_url">
+                    <el-avatar :size="60" :src="settingForm.photo_url"></el-avatar>
                     <input style="opacity:0;width:100%;height:100%;position:absolute;top:0;left:0"  type="file" @change="fileUpload">
                   </el-form-item>
-                  <el-form-item label="用户昵称：" prop="userNick">
-                    <el-input  v-model="settingForm.userNick"></el-input>
+                  <el-form-item label="用户昵称：" prop="username">
+                    <el-input  v-model="settingForm.username"></el-input>
                   </el-form-item>
-                  <el-form-item label="用户签名：">
+                  <!-- <el-form-item label="用户签名：">
                     <el-input :rows="4" type="textarea" v-model="settingForm.userDesc"></el-input>
-                  </el-form-item
-                  >
+                  </el-form-item> -->
                 </el-col>
               </el-row>
               <el-form-item>
@@ -111,20 +106,16 @@
   import ArticleCard from "./components/ArticleCard";
   import Page from "../../components/Page";
   import Captch from "../../components/Captch";
+  import {apiUploadHardImg} from "@/api/login.js"
   export default {
     name: "UserInfo",
     components: {Captch, Page, ArticleCard, Article, UserInfoCard},
     data() {
       return {
-        activeName: 'article',
+        activeName: 'setting',
         datas: [],
         userId: null,
-
-        settingForm:{
-          userFace: null,
-          userNick: null,
-          userDesc: null
-        },
+        settingForm:{},
         settingFormRules: {
           userNick: [
             { required: true, message: '用户昵称不能为空', trigger: 'blur' }
@@ -180,41 +171,22 @@
         return this.$store.getters['User/getUserInfo'];
       },
       isMy(){
-        return this.userInfo && this.userInfo.userId === this.userId;
+        return this.userInfo && this.userInfo.user_id === this.userId;
       }
     },
-    watch:{
+    watch: {
       "$route.query"(){
         if (this.$route.query.type){
           this.activeName = this.$route.query.type;
         }else{
           this.activeName = "article";
         }
-      },
-      "$route.params"(){
-        this.initUserId();
       }
     },
     mounted(){
-      if (this.$route.query.type){
-        this.activeName = this.$route.query.type;
-      }
-      this.initUserId();
+      this.settingForm = this.$store.getters['User/getUserInfo']
     },
     methods: {
-      initUserId(){
-        this.userId = parseInt(this.$route.params.userId) || this.userInfo.userId;
-        if (this.userInfo){
-          this.settingForm.userNick = this.userInfo.userNick;
-          this.settingForm.userDesc = this.userInfo.userDesc;
-          this.settingForm.userFace = this.userInfo.userFace;
-
-          this.emailForm.email = this.userInfo.userEmail;
-
-          this.getNotifyConfigs();
-        }
-        this.list();
-      },
       list(){
         let params = this.$refs.page.getPage();
         // params.searchWord = this.searchWord;
@@ -312,6 +284,17 @@
           return;
         }
         let file = files[0];
+        let data = new FormData()
+        data.append('head_photo',file)
+        apiUploadHardImg(data)
+          .then (res => {
+            console.log(res,'头像返回数据')
+            if (res.code == 200) {
+              this.$message.success('修改成功')
+            } else {
+              this.$message.error(res.message)
+            }
+          })
         this.$store.dispatch("uploadImage",file).then(res=>{
           this.settingForm.userFace = res.data;
         })

@@ -18,6 +18,15 @@ export function apiRegister(data) {
   })
 }
 
+// 上传用户头像
+export function apiUploadHardImg(data) {
+  return request({
+    url: '/change/head/photo/',
+    method: 'post',
+    data
+  })
+}
+
 // 测试接口
 export function apiTest(data) {
   return request({

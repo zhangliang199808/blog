@@ -2,15 +2,15 @@
   <el-card class="user-info-card" :class="easy?'easy':''">
     <div class="user-info-box" slot="header">
       <a href="javascript:;" @click="goUserPage">
-        <el-avatar :size="60" :src="user.userFace" ></el-avatar>
+        <el-avatar :size="60" :src="userInfoObj.photo_url" ></el-avatar>
       </a>
       <div class="box">
-        <div class="nick" @click="goUserPage">{{user.userNick}}</div>
-        <div class="desc">{{user.userDesc || '用户还没有签名...'}}</div>
-        <div class="time" >
+        <div class="nick" @click="goUserPage">{{userInfoObj.username}}</div>
+        <div class="desc">{{userInfoObj.userDesc || '用户还没有签名...'}}</div>
+        <!-- <div class="time" >
           <span :title="user.userAddTime">{{$utils.quickTimeago(user.userAddTime)}}加入</span>
           <span class="user-online-status" :class="user.isOnline?'online':''"> {{user.isOnline?'在线':'离线'}}</span>
-        </div>
+        </div> -->
       </div>
     </div>
     <el-row v-if="!easy" class="total-box" style="text-align: center;">
@@ -35,36 +35,16 @@
     name: "UserInfoCard",
     data() {
       return {
-        user: {
-          userNick: null,
-          userFace: null,
-          userDesc: null,
-          userAddTime: null
-        }
+        userInfoObj: {}
       }
     },
     props:{
-      easy: Boolean,
-      userId: Number,
-      userDTO: Object
-    },
-    watch:{
-      userId(){
-        this.getUserInfoById(this.userId);
-      }
+      easy: Boolean
     },
     mounted(){
-      if (this.userDTO){
-        this.user = this.userDTO;
-      }
+      this.userInfoObj = this.$store.getters['User/getUserInfo']
     },
     methods: {
-      getUserInfoById(userId) {
-
-        this.$store.dispatch('User/getUserInfo',userId).then(res=>{
-          this.user = res.data;
-        })
-      },
       //去指定用户的用户页面
       goUserPage() {
         this.$router.push({
