@@ -81,7 +81,6 @@
           .then(res => {
             if (res.code == 200) {
               this.articleTypeList = res.data
-              this.$router.replace({path: '/'})
             } else {
               this.$message.error(res.message)
             }

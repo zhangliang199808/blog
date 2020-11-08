@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from '../router/index'
 import store from '../store/index'
+import Vue from 'vue'
 
 const service = axios.create({
     baseURL: '/api',
@@ -26,10 +27,11 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
     response => {
-        if (response.status == 400) {
+        if (response.data.code == 401) {
+            Vue.prototype.$message.error('登录过期，请先登录')
             store.commit("User/LOGOUT")
             router.replace({path:'/'})
-        }
+        } else
         if (response.status === 200) {
             return response.data;
         } else {

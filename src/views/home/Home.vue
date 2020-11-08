@@ -126,9 +126,9 @@ export default {
     };
   },
   watch: {
-    "$route.query"() {
-      this.loadList();
-    },
+    // "$route.query"() {
+    //   this.loadList();
+    // },
   },
   mounted() {
     // this.loadList();

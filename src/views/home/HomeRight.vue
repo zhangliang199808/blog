@@ -49,6 +49,7 @@
     },
     methods: {
       goWrite() {
+
         // if(!localStorage.getItem('token')){
             //  open() {
         // this.$alert('您未登录或者登陆已过期，请点击右上角进行登陆', '登陆确认', {
@@ -66,6 +67,17 @@
         this.$router.push({
           path: "/writeArticle"
         })
+
+        let isLogin = this.$store.state.User.isLogin || false
+        if (isLogin) {
+          this.$router.push({
+            path: "/writeArticle"
+          })
+        } else {
+          this.$message.info('请先登录')
+        }
+        
+
       },
       getHotTopics(){
         this.$store.dispatch('Topic/getHotTopics').then(res=>{

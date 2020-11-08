@@ -43,6 +43,7 @@ export function getArticList(data){
     params:data
   })
 }
+
 //用户已发布文章
 export function getuserArticList(data){
   return request ({
@@ -51,9 +52,22 @@ export function getuserArticList(data){
     params:data
   })
 }
+
+
+// 修改用户头像
+
 export function apiUploadHardImg(data){
   return request ({
     url:'/change/head/photo/',
+    method:"post",
+    data
+  })
+}
+
+// 修改用户名称
+export function apiEditUsername(data){
+  return request ({
+    url:'/change/username/',
     method:"post",
     data
   })
