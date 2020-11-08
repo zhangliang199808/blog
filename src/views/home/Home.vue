@@ -69,6 +69,7 @@ import Scroller from "../../components/scroller";
 // import 'swiper/dist/css/swiper.css'
 // import {swiper,swiperSlide} from "vue-awesome-swiper"
 import { apiBaseIndex, getArticList, getArticClass } from "@/api/login.js";
+import { apiNoticeList } from "@/api/index.js";
 export default {
   name: "Home",
   components: {
@@ -142,21 +143,27 @@ export default {
     getlist() {
       apiBaseIndex().then((res) => {
         // this.tabs = res.data[0].index_category_data; //分类数据
-        this.list1 = res.data[1].index_notice_data; //公告
+        // this.list1 = res.data[1].index_notice_data; //公告
         this.imglist = res.data[2].index_banner_data;// 轮播图
       });
+      apiNoticeList()
+        .then(res => {
+          if (res.code == 200) {
+            this.list1 = res.data
+          } else {
+            this.$message.error(res.message);
+          }
+        })
     },
     // 获取文章分类
     getArticClass() {
       getArticClass().then((res) => {
-        console.log(res.data);
         this.tabs = res.data;
         this.getArtic();
       });
     },
     // 获取文章列表
     getArtic() {
-      console.log(this.activeTab);
       var formdata = new FormData();
 
       formdata.append("category_id", this.activeTab);
@@ -165,9 +172,7 @@ export default {
         category_id: this.activeTab,
         page_num: this.page.current,
       };
-      console.log(formdata.get("category_id"));
       getArticList(data).then((res) => {
-        console.log(res);
         this.datas = res.data;
         this.page.total = res.total_number;
         this.page.current = res.now_page;
@@ -176,7 +181,6 @@ export default {
     },
     // 切换分类
     onChangList(item) {
-      console.log(item);
       this.page.current = 1;
       this.activeTab = item.category_id;
       this.getArtic();
@@ -184,7 +188,6 @@ export default {
     },
 
     onCurrentChange(current) {
-      console.log(current);
       this.page.current = current;
       // this.$emit('change');
       this.getArtic();
@@ -195,7 +198,6 @@ export default {
       // this.$emit('change');
     },
     loadList(num) {
-      console.log(num);
       // this.getArtic(num)
     },
     list() {

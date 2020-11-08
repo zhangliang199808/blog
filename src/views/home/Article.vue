@@ -65,6 +65,7 @@
     </el-card>
     <el-card class="box-card">
       <comment
+
         :commentList="commentList"
         @doSend="sendContent"
         @doChidSend="twoSendContent"
@@ -136,7 +137,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params.articleId, "参数");
     this.getArticleDetail();
     this.getComment();
   },
@@ -168,15 +168,21 @@ export default {
             childList = childList.map((e) => {
               return {
                 id: e.second_comment_id, // 评论id
-                commentUser: { nickName: e.second_comment_username }, // 评论用户
-                targetUser: { nickName: "admin2" }, // 被评论用户
+                commentUser: { 
+                  nickName: e.second_comment_username,
+                  avatar: e.second_comment_head_photo,
+                }, // 评论用户
+                targetUser: { nickName: e.second_comment_username }, // 被评论用户
                 content: e.second_comment_content, // 评论内容
                 createDate: "2020-11-11", // 评论时间
               };
             });
             return {
               id: item.first_comment.comment_id, // 评论id
-              commentUser: { nickName: item.first_comment.comment_username }, // 评论用户
+              commentUser: { 
+                nickName: item.first_comment.comment_username,
+                avatar: item.first_comment.comment_head_photo
+               }, // 评论用户
               targetUser: "admin", // 被评论用户
               content: item.first_comment.comment_content, // 评论内容
               createDate: "2020-11-02", // 评论时间

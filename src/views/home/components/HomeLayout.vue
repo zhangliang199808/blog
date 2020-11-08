@@ -20,7 +20,7 @@
           </el-drawer>
         </template>
         <template v-else>
-          <div style="position: fixed;" :style="'width: ' + width + 'px'">
+          <div :style="'width: ' + width + 'px'">
             <slot name="right">
               <home-right></home-right>
             </slot>

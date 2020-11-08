@@ -7,7 +7,7 @@
     <main class="layout" :class="'route-' + route">
       <router-view/>
     </main>
-    <footer class="layout add-index">
+    <footer class=" layoutadd-index">
       <home-footer />
     </footer>
   </div>
