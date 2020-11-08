@@ -14,7 +14,7 @@
               <el-row :gutter="10">
                 <el-col :md="10">
                   <el-form-item label="用户名：">
-                    {{ settingForm.username || '' }}
+                    <el-input v-model="username" :disabled="!this.$store.getters['User/getUserInfo']"></el-input>
                   </el-form-item>
                   <el-form-item label="用户头像：" prop="photo_url">
                     <el-avatar
@@ -34,9 +34,9 @@
                       @change="fileUpload"
                     />
                   </el-form-item>
-                  <el-form-item label="用户昵称：" prop="username">
-                    <el-input v-model="settingForm.username" :disabled="!this.$store.getters['User/getUserInfo']"></el-input>
-                  </el-form-item>
+                  <!-- <el-form-item label="用户昵称：" prop="username">
+                    <el-input v-model="username" :disabled="!this.$store.getters['User/getUserInfo']"></el-input>
+                  </el-form-item> -->
                   <!-- <el-form-item label="用户签名：">
                     <el-input :rows="4" type="textarea" v-model="settingForm.userDesc"></el-input>
                   </el-form-item> -->
@@ -127,7 +127,7 @@ import Article from "./Article";
 import ArticleCard from "./components/ArticleCard";
 import Page from "../../components/Page";
 import Captch from "../../components/Captch";
-import { apiUploadHardImg, getuserArticList } from "@/api/login.js";
+import { apiUploadHardImg, getuserArticList,apiEditUsername } from "@/api/login.js";
 export default {
   name: "UserInfo",
   components: { Captch, Page, ArticleCard, Article, UserInfoCard },
@@ -139,6 +139,7 @@ export default {
       datas: [],
       userId: null,
       settingForm: {},
+      username: '',
       settingFormRules: {
         userNick: [
           { required: true, message: "用户昵称不能为空", trigger: "blur" },
@@ -215,13 +216,20 @@ export default {
     updateUserInfo() {
       this.$refs.settingForm.validate((valid) => {
         if (valid) {
-          this.$store
-            .dispatch("User/updateUserInfo", this.settingForm)
-            .then((res) => {
-              //更新用户资料
-              this.$store.commit("User/UPDATE_USERINFO", this.settingForm);
-              this.$refs.userInfoCard.getUserInfoById(this.userInfo.userId);
-            });
+          let data = new FormData()
+          data.append('username',this.username)
+          apiEditUsername(data)
+            .then(res => {
+              if (res.code == 200) {
+                let userInfoObj = this.settingForm
+                userInfoObj.username = this.username
+                this.settingForm = userInfoObj
+                this.$store.commit("User/UPDATE_USERINFO",userInfoObj);
+                this.$message.success(res.message)
+              } else {
+                this.$message.error(res.message)
+              }
+            })
         }
       });
     },

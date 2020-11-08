@@ -4,9 +4,9 @@
       <a href="javascript:;" @click="goUserPage">
         <el-avatar :size="60" :src="userInfoObj.photo_url || ''" ></el-avatar>
       </a>
-      <div class="box">
+      <div class="box flex-start flex-align-center">
         <div class="nick" @click="goUserPage">{{userInfoObj.username || ''}}</div>
-        <div class="desc">{{userInfoObj.userDesc || '用户还没有签名...'}}</div>
+        <!-- <div class="desc">{{userInfoObj.userDesc || '用户还没有签名...'}}</div> -->
         <!-- <div class="time" >
           <span :title="user.userAddTime">{{$utils.quickTimeago(user.userAddTime)}}加入</span>
           <span class="user-online-status" :class="user.isOnline?'online':''"> {{user.isOnline?'在线':'离线'}}</span>

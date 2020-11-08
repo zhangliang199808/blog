@@ -2,11 +2,11 @@
   <div class="home-menu">
     <div class="logo-box">
       <img src="@/assets/images/logo.png" alt="">
-      <span class="title">论坛系统</span>
+      <span class="title">美恒论坛</span>
     </div>
     <ul class="menu-box">
       <li @click="goPath('/')">首页</li>
-      <li @click="goPath('/topic')">话题</li>
+      <!-- <li @click="goPath('/topic')">话题</li> -->
     </ul>
   </div>
 </template>

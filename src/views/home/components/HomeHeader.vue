@@ -27,11 +27,11 @@
                   placeholder="搜索如此简单" class="my-el-input search-input" :class="{'animation':isSearchAnimation}"
                   @keyup.enter.native="onSearch"></el-input>
       </li>
-      <li v-if="isLogin">
+      <!-- <li v-if="isLogin">
         <notify>
           <i slot="reference" class="el-icon-bell"></i>
         </notify>
-      </li>
+      </li> -->
       <li>
         <el-dropdown @command="onUserCommand" style="display: flex;align-items: center;height: 100%;">
           <template v-if="isLogin">

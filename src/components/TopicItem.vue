@@ -1,5 +1,5 @@
 <template>
-  <div class="topic-item" :class="type" @click="goTopic">
+  <div class="topic-item" :class="type">
     {{name}}
   </div>
 </template>

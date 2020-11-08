@@ -7,24 +7,34 @@
       @click="goWrite"
       >发新帖</el-button
     >
-    <!--<user-info-card></user-info-card>-->
-    <el-card style="margin-top: 20px" class="box-card topic-rank-card">
+    <el-card v-if="recommendArticleList.length" style="margin-top: 20px" class="box-card topic-rank-card">
       <div slot="header">
-        <span>最新文章</span>
+        <span>推荐文章</span>
       </div>
       <div class="list">
-        <div class="item" v-for="(item, index) in newArticleList" :key="index" @click="goArticleDetail(item)">
+        <div class="item" v-for="(item, index) in recommendArticleList" :key="index"  @click="goArticleDetail(item)">
           <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
           <topic-item type="none" :name="item.article_title"></topic-item>
         </div>
       </div>
     </el-card>
-    <el-card style="margin-top: 20px" class="box-card topic-rank-card">
+    <el-card v-if="hotArticleList.length" style="margin-top: 20px" class="box-card topic-rank-card">
       <div slot="header">
         <span>最热文章</span>
       </div>
       <div class="list">
         <div class="item" v-for="(item, index) in hotArticleList" :key="index"  @click="goArticleDetail(item)">
+          <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
+          <topic-item type="none" :name="item.article_title"></topic-item>
+        </div>
+      </div>
+    </el-card>
+    <el-card v-if="newArticleList.length" style="margin-top: 20px" class="box-card topic-rank-card">
+      <div slot="header">
+        <span>最新文章</span>
+      </div>
+      <div class="list">
+        <div class="item" v-for="(item, index) in newArticleList" :key="index" @click="goArticleDetail(item)">
           <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
           <topic-item type="none" :name="item.article_title"></topic-item>
         </div>
@@ -49,7 +59,8 @@ import { apiBaseIndex } from "@/api/login.js";
           articleNum: 'kanakn'
         }],
         newArticleList:[], // 最新文章列表
-        hotArticleList:[] // 最热文章列表
+        hotArticleList:[], // 最热文章列表
+        recommendArticleList: [] ,// 推荐文章列表
       }
     },
     mounted(){
@@ -61,6 +72,7 @@ import { apiBaseIndex } from "@/api/login.js";
           console.log(res,'aaaa')
           this.newArticleList = res.data[3].index_article_data;// 最新文章列表
           this.hotArticleList = res.data[5].index_hot_article_data;// 最热文章列表
+          this.recommendArticleList = res.data[4].recommendation_article_data; // 推荐文章列表
         });
       },
       goWrite() {
