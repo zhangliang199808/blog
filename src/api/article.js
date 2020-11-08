@@ -26,3 +26,12 @@ export function apiUploadImgOrFile(data) {
       data
     })
 }
+
+// 获取文章详情
+export function apiArticleDetail(data) {
+  return request({
+    url: '/article/data/?article_id='+ data.article_id,
+    method: 'get',
+    data
+  })
+}

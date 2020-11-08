@@ -4,16 +4,16 @@
       <template slot="left">
         <el-card class="box-card article-card" :class="{'delete-status': article.articleStatus === 0 }">
           <div slot="header" class="article-card-header">
-            <user-info-show-card :userDTO="article.userDTO">
+            <!-- <user-info-show-card :userDTO="article.userDTO">
               <el-avatar :size="50" :src="article.userDTO.userFace"></el-avatar>
-            </user-info-show-card>
+            </user-info-show-card> -->
             <div class="article-box">
-              <div class="title">{{article.articleTitle}}</div>
+              <div class="title">{{articleObj.article_title}}</div>
               <div class="info">
                   <span>
                     <el-link class="author-name my-el-link" style="vertical-align: unset;" @click="goUserPage">{{article.userDTO.userNick}}</el-link>
                     <span> · </span>
-                    <span :title="article.articleAddTime">{{$utils.quickTimeago(article.articleAddTime)}}</span>
+                    <span :title="article.articleAddTime">{{articleObj.article_create_time}}</span>
                   </span>
               </div>
           </div>
@@ -29,7 +29,7 @@
           </div>
         </div>
           <div class="content">
-            <editor ref="editor" :show-tools="false" :active="true" v-model="article.articleContent"></editor>
+            <div v-html="articleObj.article_content"></div>
           </div>
           <!--<div class="handler">-->
             <!--<show-num-component num="1" type="success">-->
@@ -85,6 +85,7 @@
   import UserInfoShowCard from "./components/UserInfoShowCard";
   import ArticleComment from "./components/ArticleComment";
   import ArticleCommentAdd from "./components/ArticleCommentAdd";
+  import {apiArticleDetail} from "@/api/article.js"
   export default {
     name: "Article",
     components: {
@@ -94,6 +95,7 @@
     data() {
       return {
         articleId: null,
+        articleObj: {},
         article:{
           articleId: null,
           articleTitle: null,
@@ -121,30 +123,23 @@
         return this.userInfo && this.userInfo.userId === this.article.userDTO.userId;
       }
     },
-    watch:{
-      "$route.query.commentId"(){
-        this.goArticleComment();
-      }
-    },
-    async mounted(){
-      this.articleId = this.$route.params.articleId;
-      await this.addArticleView();
-      //初始化文章数据
-      await this.getArticle();
-
-
-      //监听 class  CodeMirror-matching-topic 点击
-      this.$nextTick(()=>{
-        let self = this;
-        $('.CodeMirror-matching-topic').on('click',function(event){
-          let name = $(this).text().substring(1,$(this).text().length - 1);
-          self.$router.push({
-            path: '/topic/' + name
-          })
-        });
-      })
+    mounted(){
+      console.log(this.$route.params.articleId,'参数')
+      this.getArticleDetail()
     },
     methods: {
+      getArticleDetail() {
+        let params = {}
+        params.article_id = this.$route.params.articleId
+        apiArticleDetail(params)
+          .then(res => {
+            if (res.code == 200) {
+              this.articleObj = res
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+      },
       handleCommand(command){
         if (command === "goEditArticle"){
           this.goEditArticle();

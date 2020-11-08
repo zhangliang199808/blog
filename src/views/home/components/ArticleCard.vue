@@ -59,7 +59,7 @@
       //去指定文章页面
       goArticlePage(){
         this.$router.push({
-          path: "/article/" + this.article.articleId
+          path: "/article/" + this.article.article_id
         })
       }
     },
