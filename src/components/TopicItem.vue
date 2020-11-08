@@ -1,7 +1,7 @@
 <template>
-  <span class="topic-item" :class="type" @click="goTopic">
-    #{{name}}#
-  </span>
+  <div class="topic-item" :class="type" @click="goTopic">
+    {{name}}
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -33,7 +33,10 @@
 .topic-item {
   cursor: pointer;
   padding: 0 5px;
-  display: inline-block;
+  flex: 1;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
 }
 .topic-item.none{
   background: #fff;

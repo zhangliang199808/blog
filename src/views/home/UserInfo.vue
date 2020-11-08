@@ -14,12 +14,12 @@
               <el-row :gutter="10">
                 <el-col :md="10">
                   <el-form-item label="用户名：">
-                    {{ settingForm.username }}
+                    {{ settingForm.username || '' }}
                   </el-form-item>
                   <el-form-item label="用户头像：" prop="photo_url">
                     <el-avatar
                       :size="60"
-                      :src="settingForm.photo_url"
+                      :src="settingForm.photo_url || ''"
                     ></el-avatar>
                     <input
                       style="

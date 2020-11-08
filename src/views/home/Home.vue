@@ -67,7 +67,7 @@ import Hitokoto from "../../components/Hitokoto";
 import Scroller from "../../components/scroller";
 // import 'swiper/dist/css/swiper.css'
 // import {swiper,swiperSlide} from "vue-awesome-swiper"
-import { apiTest, getArticList, getArticClass } from "@/api/login.js";
+import { apiBaseIndex, getArticList, getArticClass } from "@/api/login.js";
 export default {
   name: "Home",
   components: {
@@ -122,7 +122,7 @@ export default {
         total: 10,
         size: 10,
       },
-        imglist:[]
+      imglist:[]
     };
   },
   watch: {
@@ -138,13 +138,10 @@ export default {
   methods: {
     //轮播图  公告
     getlist() {
-      apiTest().then((res) => {
-        console.log(123);
-        console.log(res.data);
+      apiBaseIndex().then((res) => {
         // this.tabs = res.data[0].index_category_data; //分类数据
         this.list1 = res.data[1].index_notice_data; //公告
-        this.imglist = res.data[2].index_banner_data;
-        // this.datas = res.data[3].index_article_data;
+        this.imglist = res.data[2].index_banner_data;// 轮播图
       });
     },
     // 获取文章分类

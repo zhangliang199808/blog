@@ -10,23 +10,24 @@
     <!--<user-info-card></user-info-card>-->
     <el-card style="margin-top: 20px" class="box-card topic-rank-card">
       <div slot="header">
-        <span>Top话题</span>
+        <span>最新文章</span>
       </div>
       <div class="list">
-        <div class="item" v-for="(topic, index) in topics" :key="index">
-          <span>
-            <span class="index" :class="'index-' + (index + 1)">{{
-              index + 1
-            }}</span>
-            <topic-item
-              type="none"
-              :name="topic.topicName"
-              :title="topic.topicDesc"
-            ></topic-item
-          ></span>
-          <span>{{ topic.articleNum }}</span>
+        <div class="item" v-for="(item, index) in newArticleList" :key="index">
+          <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
+          <topic-item type="none" :name="item.article_title"></topic-item>
         </div>
-        <!---->
+      </div>
+    </el-card>
+    <el-card style="margin-top: 20px" class="box-card topic-rank-card">
+      <div slot="header">
+        <span>最热文章</span>
+      </div>
+      <div class="list">
+        <div class="item" v-for="(item, index) in hotArticleList" :key="index">
+          <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
+          <topic-item type="none" :name="item.article_title"></topic-item>
+        </div>
       </div>
     </el-card>
   </div>
@@ -36,38 +37,33 @@
   import UserInfoCard from "./components/UserInfoCard";
   import TopicItem from "../../components/TopicItem";
   import List from "../../components/List";
+import { apiBaseIndex } from "@/api/login.js";
   export default {
     name: "HomeRight",
     components: {List, TopicItem, UserInfoCard},
     data() {
       return {
-        topics: []
+        topics: [{
+          topicName:'测试',
+          topicDesc: '标题',
+          articleNum: 'kanakn'
+        }],
+        newArticleList:[], // 最新文章列表
+        hotArticleList:[] // 最热文章列表
       }
     },
     mounted(){
-      this.getHotTopics();
+      this.getlist();
     },
     methods: {
+      getlist() {
+        apiBaseIndex().then((res) => {
+          console.log(res,'aaaa')
+          this.newArticleList = res.data[3].index_article_data;// 最新文章列表
+          this.hotArticleList = res.data[5].index_hot_article_data;// 最热文章列表
+        });
+      },
       goWrite() {
-
-        // if(!localStorage.getItem('token')){
-            //  open() {
-        // this.$alert('您未登录或者登陆已过期，请点击右上角进行登陆', '登陆确认', {
-        //   confirmButtonText: '确定',
-        //   callback: action => {
-            // this.$message({
-            //   type: 'info',
-            //   message: `action: ${ action }`
-            // });
-        //   }
-        // });
-      // }
-      // return false
-        // }
-        this.$router.push({
-          path: "/writeArticle"
-        })
-
         let isLogin = this.$store.state.User.isLogin || false
         if (isLogin) {
           this.$router.push({
@@ -76,15 +72,8 @@
         } else {
           this.$message.info('请先登录')
         }
-        
-
-      },
-      getHotTopics(){
-        this.$store.dispatch('Topic/getHotTopics').then(res=>{
-          this.topics = res.data.records;
-        })
       }
-    },
+    }
   }
 </script>
 
@@ -98,7 +87,8 @@
     .list {
       .item {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
+        align-content:center;
         padding: 10px 15px;
 
         .index {

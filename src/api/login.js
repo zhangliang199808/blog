@@ -18,8 +18,8 @@ export function apiRegister(data) {
   })
 }
 
-// 测试接口
-export function apiTest(data) {
+// 首页基本信息列表
+export function apiBaseIndex(data) {
   return request({
     url: '/index/',
     method: 'get',

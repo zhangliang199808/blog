@@ -2,10 +2,10 @@
   <el-card class="user-info-card" :class="easy?'easy':''">
     <div class="user-info-box" slot="header">
       <a href="javascript:;" @click="goUserPage">
-        <el-avatar :size="60" :src="userInfoObj.photo_url" ></el-avatar>
+        <el-avatar :size="60" :src="userInfoObj.photo_url || ''" ></el-avatar>
       </a>
       <div class="box">
-        <div class="nick" @click="goUserPage">{{userInfoObj.username}}</div>
+        <div class="nick" @click="goUserPage">{{userInfoObj.username || ''}}</div>
         <div class="desc">{{userInfoObj.userDesc || '用户还没有签名...'}}</div>
         <!-- <div class="time" >
           <span :title="user.userAddTime">{{$utils.quickTimeago(user.userAddTime)}}加入</span>
