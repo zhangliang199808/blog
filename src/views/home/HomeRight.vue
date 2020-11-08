@@ -47,7 +47,7 @@
   import UserInfoCard from "./components/UserInfoCard";
   import TopicItem from "../../components/TopicItem";
   import List from "../../components/List";
-import { apiBaseIndex } from "@/api/login.js";
+  import {apiHotArticleList,apiNewArticleList,apiRecommendArticleList} from "@/api/index.js"
   export default {
     name: "HomeRight",
     components: {List, TopicItem, UserInfoCard},
@@ -68,12 +68,24 @@ import { apiBaseIndex } from "@/api/login.js";
     },
     methods: {
       getlist() {
-        apiBaseIndex().then((res) => {
-          console.log(res,'aaaa')
-          this.newArticleList = res.data[3].index_article_data;// 最新文章列表
-          this.hotArticleList = res.data[5].index_hot_article_data;// 最热文章列表
-          this.recommendArticleList = res.data[4].recommendation_article_data; // 推荐文章列表
-        });
+        apiRecommendArticleList()
+          .then(res => {
+              if (res.code == 200) {
+                this.recommendArticleList = res.data || []
+              }
+            })
+        apiNewArticleList()
+          .then(res => {
+              if (res.code == 200) {
+                this.newArticleList = res.data || []
+              }
+            })
+        apiHotArticleList()
+          .then(res => {
+            if (res.code == 200) {
+              this.hotArticleList = res.data || []
+            }
+          })
       },
       goWrite() {
         let isLogin = this.$store.state.User.isLogin || false

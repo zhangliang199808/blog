@@ -65,7 +65,7 @@
     </el-card>
     <el-card class="box-card">
       <comment
-
+        :avatar="userInfo.photo_url"
         :commentList="commentList"
         @doSend="sendContent"
         @doChidSend="twoSendContent"
@@ -151,7 +151,6 @@ export default {
       this.sendComment(text);
     },
     twoSendContent(text, commentId, fatherId) {
-      console.log(text, commentId, fatherId, "评论ID");
       this.sendComment(text,fatherId)
       // commentId // 被评论的id； fatherId： 父级评论的ID
       
@@ -203,7 +202,6 @@ export default {
       data.append("comment", content);
       abc(data)
         .then((res) => {
-          console.log(res);
           if (res.code == 200) {
             this.$message.success(res.message)
             if (twoId) {
@@ -279,9 +277,7 @@ export default {
     goArticleComment() {
       if (this.$route.query.commentId) {
         let id = "comment-" + this.$route.query.commentId;
-
         this.$utils.scrollTo(id);
-        console.log(id);
       }
     },
     saveArticleStatus(status) {

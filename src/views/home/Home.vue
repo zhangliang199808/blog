@@ -69,7 +69,7 @@ import Scroller from "../../components/scroller";
 // import 'swiper/dist/css/swiper.css'
 // import {swiper,swiperSlide} from "vue-awesome-swiper"
 import { apiBaseIndex, getArticList, getArticClass } from "@/api/login.js";
-import { apiNoticeList } from "@/api/index.js";
+import { apiNoticeList,apiIndexBanner } from "@/api/index.js";
 export default {
   name: "Home",
   components: {
@@ -141,11 +141,12 @@ export default {
   methods: {
     //轮播图  公告
     getlist() {
-      apiBaseIndex().then((res) => {
-        // this.tabs = res.data[0].index_category_data; //分类数据
-        // this.list1 = res.data[1].index_notice_data; //公告
-        this.imglist = res.data[2].index_banner_data;// 轮播图
-      });
+      apiIndexBanner()
+        .then(res => {
+          if (res.code == 200) {
+            this.imglist = res.data
+          }
+        })
       apiNoticeList()
         .then(res => {
           if (res.code == 200) {
@@ -165,7 +166,6 @@ export default {
     // 获取文章列表
     getArtic() {
       var formdata = new FormData();
-
       formdata.append("category_id", this.activeTab);
       formdata.append("page_num", 1);
       let data = {
