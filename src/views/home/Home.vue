@@ -23,7 +23,7 @@
           <el-carousel >
             <el-carousel-item v-for="(item,index) in imglist" :key="index">
               <!-- <h3 class="small">{{ item }}</h3> -->
-              <img :src="item.banner_image_url" alt="" style="width:100%;height:100%"/>
+              <img @click="goUrl(item)" :src="item.banner_image_url" :alt="item.banner_title" style="width:100%;height:100%"/>
             </el-carousel-item>
           </el-carousel>
         <el-card class="box-card article-list-card">
@@ -139,6 +139,10 @@ export default {
     this.getArticClass();
   },
   methods: {
+    goUrl(item) {
+      console.log(item)
+      location.href = item.banner_image_url
+    },
     //轮播图  公告
     getlist() {
       apiIndexBanner()

@@ -65,6 +65,7 @@
     </el-card>
     <el-card class="box-card">
       <comment
+        :commentNum="commentList.length"
         :avatar="userInfo.photo_url"
         :commentList="commentList"
         @doSend="sendContent"
