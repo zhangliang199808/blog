@@ -14,7 +14,7 @@
             <topic-item :name="topic" :key="index"></topic-item>
             <span> · </span>
           </template>
-          <el-link @click="goUserPage" class="author-name my-el-link" style="vertical-align: unset;">{{article.article_username}}</el-link>
+          <el-link @click="goUserPage" class="author-name my-el-link" style="vertical-align: unset;">{{article.article_username||article.article_user}}</el-link>
           <span> · </span>
           <span :title="article.article_created_time">
             {{$utils.quickTimeago(article.article_created_time)}}
