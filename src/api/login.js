@@ -43,7 +43,14 @@ export function getArticList(data){
     params:data
   })
 }
-
+//用户已发布文章
+export function getuserArticList(data){
+  return request ({
+    url:'/obtain/article/',
+    method:"get",
+    params:data
+  })
+}
 export function apiUploadHardImg(data){
   return request ({
     url:'/change/head/photo/',

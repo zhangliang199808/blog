@@ -219,6 +219,7 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
 .home {
+  box-size:border-box
   .article-list-card {
     .el-card__header {
       padding: 0;

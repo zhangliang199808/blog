@@ -18,10 +18,8 @@ export default {
       // 获取内容区宽度
       let width = document.getElementById("marquee").scrollWidth;
       let width1 = document.getElementsByClassName("wrap")[0].offsetWidth;
-        //   console.log(width2[0].scrollWidth);
       let marquee = document.getElementById("marquee");
       let speed = 10; // 位移距离 // 设置位移
-      console.log(width1);
       setInterval(function () {
         speed = speed - 1; // 如果位移超过文字宽度，则回到起点
         if (-speed >= width) {

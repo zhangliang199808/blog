@@ -1,17 +1,30 @@
 <template>
   <div class="home-right">
-    <el-button class="my-button-style-skin" icon="el-icon-plus" style="width: 100%;" @click="goWrite">发新帖</el-button>
+    <el-button
+      class="my-button-style-skin"
+      icon="el-icon-plus"
+      style="width: 100%"
+      @click="goWrite"
+      >发新帖</el-button
+    >
     <!--<user-info-card></user-info-card>-->
-    <el-card style="margin-top: 20px;" class="box-card topic-rank-card">
+    <el-card style="margin-top: 20px" class="box-card topic-rank-card">
       <div slot="header">
         <span>Top话题</span>
       </div>
-      <div  class="list ">
-        <div class="item" v-for="(topic,index) in topics" :key="index">
+      <div class="list">
+        <div class="item" v-for="(topic, index) in topics" :key="index">
           <span>
-            <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
-            <topic-item type="none" :name="topic.topicName" :title="topic.topicDesc"></topic-item></span>
-          <span>{{topic.articleNum}}</span>
+            <span class="index" :class="'index-' + (index + 1)">{{
+              index + 1
+            }}</span>
+            <topic-item
+              type="none"
+              :name="topic.topicName"
+              :title="topic.topicDesc"
+            ></topic-item
+          ></span>
+          <span>{{ topic.articleNum }}</span>
         </div>
         <!---->
       </div>
@@ -36,6 +49,20 @@
     },
     methods: {
       goWrite() {
+        // if(!localStorage.getItem('token')){
+            //  open() {
+        // this.$alert('您未登录或者登陆已过期，请点击右上角进行登陆', '登陆确认', {
+        //   confirmButtonText: '确定',
+        //   callback: action => {
+            // this.$message({
+            //   type: 'info',
+            //   message: `action: ${ action }`
+            // });
+        //   }
+        // });
+      // }
+      // return false
+        // }
         this.$router.push({
           path: "/writeArticle"
         })
@@ -51,36 +78,39 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
 .home-right {
-  .topic-rank-card{
-    .el-card__body{
+  .topic-rank-card {
+    .el-card__body {
       padding: 0;
     }
-    .list{
-      .item{
+
+    .list {
+      .item {
         display: flex;
         justify-content: space-between;
         padding: 10px 15px;
-        .index{
+
+        .index {
           font-size: 13px;
           padding: 3px 8px;
           border-radius: 50%;
           color: #fff;
           background: var(--skin-info);
         }
-        .index.index-1{
+
+        .index.index-1 {
           background: var(--skin-danger);
         }
-        .index.index-2{
+
+        .index.index-2 {
           background: var(--skin-success);
         }
-        .index.index-3{
+
+        .index.index-3 {
           background: var(--skin-warning);
         }
-
       }
     }
   }
-
 }
 </style>
 -
