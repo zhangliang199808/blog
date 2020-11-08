@@ -35,3 +35,14 @@ export function apiArticleDetail(data) {
     data
   })
 }
+
+// /删除文章
+
+export function deleteArticleDetail(data) {
+  return request({
+    url: '/delete/article/',
+    // url: '/delete/article/?article_id='+data,
+    method: 'post',
+    data
+  })
+}

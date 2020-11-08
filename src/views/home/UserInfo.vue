@@ -35,7 +35,7 @@
                     />
                   </el-form-item>
                   <el-form-item label="用户昵称：" prop="username">
-                    <el-input v-model="settingForm.username"></el-input>
+                    <el-input v-model="settingForm.username" :disabled="!this.$store.getters['User/getUserInfo']"></el-input>
                   </el-form-item>
                   <!-- <el-form-item label="用户签名：">
                     <el-input :rows="4" type="textarea" v-model="settingForm.userDesc"></el-input>
@@ -43,7 +43,7 @@
                 </el-col>
               </el-row>
               <el-form-item>
-                <el-button class="my-button-style-skin" @click="updateUserInfo"
+                <el-button  v-show="this.$store.getters['User/getUserInfo']" class="my-button-style-skin" @click="updateUserInfo"
                   >修 改</el-button
                 >
               </el-form-item>
@@ -53,6 +53,9 @@
             <article-card
               v-for="(item, index) in datas"
               :article="item"
+              :aaa="aaa"
+              :getactivelist="getactivelist"
+              ref="myarticlist"
               easy
               :key="index"
             ></article-card>
@@ -130,6 +133,8 @@ export default {
   components: { Captch, Page, ArticleCard, Article, UserInfoCard },
   data() {
     return {
+      bbb:'',
+      aaa:true,
       activeName: "setting",
       datas: [],
       userId: null,
@@ -248,6 +253,7 @@ export default {
         }
       });
     },
+    
     sendEmailCode() {
       if (!this.emailForm.email) {
         this.$message.error("请先填写邮箱地址");
@@ -279,8 +285,12 @@ export default {
      * 获取我的文章列表
      */
     getactivelist() {
-      getuserArticList().then((res) => {
-        console.log(res);
+      console.log(123)
+      // this.page.current =1
+      let data = {
+        page_num: this.page.current,
+      };
+      getuserArticList(data).then((res) => {
         this.datas = res.data;
         this.page.total = res.total_number;
         this.page.current = res.now_page;
@@ -288,7 +298,6 @@ export default {
     },
     // 分页
     onCurrentChange(current) {
-      console.log(current);
       this.page.current = current;
       // this.$emit('change');
       this.getactivelist();
@@ -314,7 +323,6 @@ export default {
     },
     //文件上传
     fileUpload(e) {
-      console.log(e, "文件上传");
       let files = e.target.files;
       if (files.length === 0) {
         this.$message.info("请选择图片");
@@ -322,7 +330,6 @@ export default {
       }
       let file = files[0];
       let data = new FormData();
-      console.log(e, "kankan");
       data.append("head_photo", file);
       apiUploadHardImg(data).then((res) => {
         console.log(res, "头像返回数据");
