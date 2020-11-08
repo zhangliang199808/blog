@@ -36,6 +36,7 @@ export function apiArticleDetail(data) {
   })
 }
 
+
 // /删除文章
 
 export function deleteArticleDetail(data) {
@@ -44,5 +45,22 @@ export function deleteArticleDetail(data) {
     // url: '/delete/article/?article_id='+data,
     method: 'post',
     data
+  })
+  }
+// 文文章评论查询
+export function apiComment(data) {
+  return request({
+    url: '/get/comment/',
+    method: 'get',
+    params: data
+  })
+}
+
+// 文文章评论发送
+export function abc(data) {
+  return request({
+    url: '/add/comment/',
+    method: 'post',
+     data
   })
 }
