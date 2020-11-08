@@ -8,8 +8,8 @@
             <el-form ref="settingForm" :model="settingForm" :rules="settingFormRules" label-width="120px">
               <el-row :gutter="10">
                 <el-col :md="10">
-                  <el-form-item label="用户名：">
-                    <el-input  v-model="settingForm.username"></el-input>
+                  <el-form-item label="用户名：" prop="username">
+                    <el-input  v-model="username"></el-input>
                   </el-form-item>
                   <el-form-item label="用户头像：" prop="photo_url">
                     <el-avatar :size="60" :src="settingForm.photo_url"></el-avatar>
@@ -103,7 +103,7 @@
   import ArticleCard from "./components/ArticleCard";
   import Page from "../../components/Page";
   import Captch from "../../components/Captch";
-  import {apiUploadHardImg} from "@/api/login.js"
+  import {apiUploadHardImg,apiEditUsername} from "@/api/login.js"
   export default {
     name: "UserInfo",
     components: {Captch, Page, ArticleCard, Article, UserInfoCard},
@@ -113,12 +113,10 @@
         datas: [],
         userId: null,
         settingForm:{},
+        username: '',
         settingFormRules: {
           userNick: [
             { required: true, message: '用户昵称不能为空', trigger: 'blur' }
-          ],
-          userFace: [
-            { required: true, message: '用户头像不能为空', trigger: 'blur' }
           ]
         },
 
@@ -164,15 +162,13 @@
       }
     },
     computed:{
-      userInfo(){
-        return this.$store.getters['User/getUserInfo'];
-      },
       isMy(){
         return this.userInfo && this.userInfo.user_id === this.userId;
       }
     },
     mounted(){
       this.settingForm = this.$store.getters['User/getUserInfo']
+      this.username = this.settingForm.username
     },
     methods: {
       list(){
@@ -187,13 +183,26 @@
       updateUserInfo(){
         this.$refs.settingForm.validate((valid) => {
           if (valid) {
-            console.log(111111)
-            return false
-            // this.$store.dispatch('User/updateUserInfo',this.settingForm).then(res=>{
-            //   //更新用户资料
-            //   this.$store.commit("User/UPDATE_USERINFO",this.settingForm);
-            //   this.$refs.userInfoCard.getUserInfoById(this.userInfo.userId);
-            // })
+            let data = new FormData()
+            data.append('username',this.username)
+            apiEditUsername(data)
+              .then(res => {
+                if (res.code == 200) {
+                  let userInfoObj = this.settingForm
+                  userInfoObj.username = this.username
+                  this.settingForm = userInfoObj
+                  this.$store.commit("User/UPDATE_USERINFO",userInfoObj);
+                  this.$message.success(res.message)
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
+            // return false
+            // // this.$store.dispatch('User/updateUserInfo',this.settingForm).then(res=>{
+            // //   //更新用户资料
+            // //   this.$store.commit("User/UPDATE_USERINFO",this.settingForm);
+            // //   this.$refs.userInfoCard.getUserInfoById(this.userInfo.userId);
+            // // })
           }
         });
 
@@ -268,7 +277,6 @@
       },
       //文件上传
       fileUpload(e){
-        console.log(e,'文件上传')
         let files = e.target.files;
         if (files.length === 0){
           this.$message.info("请选择图片");
@@ -280,7 +288,6 @@
         data.append('head_photo',file)
         apiUploadHardImg(data)
           .then (res => {
-            console.log(res,'头像返回数据')
             if (res.code == 200) {
               this.$message.success('修改成功')
               let userInfoObj = this.settingForm

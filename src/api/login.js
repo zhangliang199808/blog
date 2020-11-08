@@ -44,9 +44,19 @@ export function getArticList(data){
   })
 }
 
+// 修改用户头像
 export function apiUploadHardImg(data){
   return request ({
     url:'/change/head/photo/',
+    method:"post",
+    data
+  })
+}
+
+// 修改用户名称
+export function apiEditUsername(data){
+  return request ({
+    url:'/change/username/',
     method:"post",
     data
   })
