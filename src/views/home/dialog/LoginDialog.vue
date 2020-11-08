@@ -48,8 +48,8 @@ export default {
     return {
       dialogVisible: false,
       form: {
-        userName: "admin",
-        password: "123456",
+        userName: "",
+        password: "",
       },
       formRules: {
         userName: [
