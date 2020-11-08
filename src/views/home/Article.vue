@@ -9,12 +9,7 @@
           <div class="title">{{ articleObj.article_title }}</div>
           <div class="info">
             <span>
-              <el-link
-                class="author-name my-el-link"
-                style="vertical-align: unset"
-                @click="goUserPage"
-                >{{ article.userDTO.userNick }}</el-link
-              >
+              {{ articleObj.article_user }}
               <span> · </span>
               <span :title="article.articleAddTime">{{
                 articleObj.article_create_time

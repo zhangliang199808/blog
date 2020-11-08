@@ -13,7 +13,7 @@
         <span>最新文章</span>
       </div>
       <div class="list">
-        <div class="item" v-for="(item, index) in newArticleList" :key="index">
+        <div class="item" v-for="(item, index) in newArticleList" :key="index" @click="goArticleDetail(item)">
           <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
           <topic-item type="none" :name="item.article_title"></topic-item>
         </div>
@@ -24,7 +24,7 @@
         <span>最热文章</span>
       </div>
       <div class="list">
-        <div class="item" v-for="(item, index) in hotArticleList" :key="index">
+        <div class="item" v-for="(item, index) in hotArticleList" :key="index"  @click="goArticleDetail(item)">
           <span class="index" :class="'index-' + (index + 1)">{{index + 1}}</span>
           <topic-item type="none" :name="item.article_title"></topic-item>
         </div>
@@ -72,6 +72,11 @@ import { apiBaseIndex } from "@/api/login.js";
         } else {
           this.$message.info('请先登录')
         }
+      },
+      goArticleDetail(item) {
+        this.$router.push({
+          path: "/article/" + item.article_id
+        })
       }
     }
   }

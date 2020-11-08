@@ -1,6 +1,6 @@
 <template>
   <div class="article-card" :class="{'delete-status': article.articleStatus === 0 }">
-    <el-avatar v-if="!noFace" style="cursor: pointer;" @click="goUserPage" :size="50" :src="article.article_user_head_photo"></el-avatar>
+      <el-avatar v-if="!noFace" style="cursor: pointer;" @click="goUserPage" :size="50" :src="article.article_user_head_photo"></el-avatar>
     <!-- <user-info-show-card :userDTO="article.userDTO">
     </user-info-show-card> -->
     <div class="article-box">
@@ -52,7 +52,6 @@
     methods: {
       //去指定用户的用户页面
       goUserPage() {
-        console.log(111111)
         this.$router.push({
           path: "/user/" + this.article.article_user_id
         })

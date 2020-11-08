@@ -37,6 +37,7 @@
           <article-card
             v-for="(item, index) in datas"
             :article="item"
+              :aaa="aaa"
             easy
             :key="index"
           ></article-card>
@@ -83,6 +84,7 @@ export default {
   },
   data() {
     return {
+      aaa:false,
       images: [
         {
           title: "xxxxx系统1111",
