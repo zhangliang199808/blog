@@ -85,6 +85,7 @@ import ArticleComment from "./components/ArticleComment";
 import ArticleCommentAdd from "./components/ArticleCommentAdd";
 import { apiArticleDetail, apiDetail, apiComment, abc } from "@/api/article.js";
 import comment from "hbl-comment";
+import moment from 'moment'
 export default {
   name: "Article",
   components: {
@@ -144,7 +145,8 @@ export default {
     sendContent(text) {
       let obj = {};
       obj.id = this.commentList.length + 200;
-      obj.commentUser = this.$store.state.user.username;
+      console.log(this.$store.state,'llll')
+      obj.commentUser = this.$store.state.User.userInfo.username;
       obj.content = text;
       obj.createDate = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
       this.commentList.unshift(obj);

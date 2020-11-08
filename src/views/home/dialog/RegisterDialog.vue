@@ -108,7 +108,6 @@
             data.append('password2',this.form.confirmPassword)
             apiRegister(data)
               .then(res => {
-                console.log(res,'注册结果')
                 if (res.code == 200) {
                   this.$message.success("注册成功");
                   this.openLogin();
