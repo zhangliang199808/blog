@@ -201,6 +201,7 @@ export default {
   },
   mounted() {
     this.settingForm = this.$store.getters["User/getUserInfo"];
+    this.username = this.settingForm.username
     this.getactivelist();
   },
   methods: {
