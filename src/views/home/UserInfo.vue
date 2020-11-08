@@ -14,7 +14,7 @@
               <el-row :gutter="10">
                 <el-col :md="10">
                   <el-form-item label="用户名：">
-                    {{ userInfo.username }}
+                    {{ settingForm.username }}
                   </el-form-item>
                   <el-form-item label="用户头像：" prop="photo_url">
                     <el-avatar
@@ -189,11 +189,8 @@ export default {
     };
   },
   computed: {
-    userInfo() {
-      return this.$store.getters["User/getUserInfo"];
-    },
     isMy() {
-      return this.userInfo && this.userInfo.user_id === this.userId;
+      return true
     },
   },
   mounted() {

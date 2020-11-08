@@ -52,8 +52,9 @@
     methods: {
       //去指定用户的用户页面
       goUserPage() {
+        console.log(11111)
         this.$router.push({
-          path: "/user/" + this.article.userDTO.userId
+          path: "/user/" + this.article.article_user_id
         })
       },
       //去指定文章页面
