@@ -380,15 +380,17 @@
 		    		if(index!==0){
 		    			this.$set(this.replyMap,index,false)
 		    		}
-		    		console.log(index+"index");
+		    		// console.log(index+"index");
 		    		//this.showFlag = false;
 		    	},
 	          doSend(){
+				this.pBodyStatus(0)
 	          	//console.log("====="+this.textarea);
 	          	this.$emit("doSend",this.textareaMap[0]);
 	          	this.$set(this.textareaMap,0,'')
 	          },
 	          doChidSend(index,commentUserId,pid){
+				this.pBodyStatus(1)
 	          	this.$emit("doChidSend",this.textareaMap[index],commentUserId,pid);
           		this.$set(this.textareaMap,index,'')
 	          },
@@ -426,11 +428,9 @@
 	          },
 	          doReply(index){
 				this.$set(this.replyMap,index,true)
-				console.log(this.replyMap[index]);
 			},
-			
   			pBodyStatus(index){
-  				this.$set(this.pBodyMap,index,false)
+  				this.$set(this.pBodyMap,index,!this.pBodyMap[index])
   			},
 	         
         },
