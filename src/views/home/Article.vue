@@ -66,7 +66,7 @@
     <el-card class="box-card">
       <comment
         :commentNum="commentList.length"
-        :avatar="userInfo.photo_url"
+        :avatar="userInfo.photo_url || ''"
         :commentList="commentList"
         @doSend="sendContent"
         @doChidSend="twoSendContent"
@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     userInfo() {
-      return this.$store.getters["User/getUserInfo"];
+      return this.$store.getters["User/getUserInfo"] || {}
     },
     isMy() {
       return (
