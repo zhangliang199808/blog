@@ -142,8 +142,7 @@ export default {
   },
   methods: {
     goUrl(item) {
-      console.log(item)
-      location.href = item.banner_image_url
+      this.$router.push({path:'/article/' + item.banner_article_url})
     },
     //轮播图  公告
     getlist() {
