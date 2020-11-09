@@ -11,7 +11,6 @@
 				  type="textarea"
 				  :autosize="{ minRows: minRows, maxRows: maxRows}"
 				  :placeholder=placeholder
-				  @blur="closeEmoji(0)"
 				  v-model="textareaMap[0]">
 				</el-input>
 
@@ -86,7 +85,6 @@
 												  type="textarea"
 												  :autosize="{ minRows: minRows, maxRows: maxRows}"
 												  :placeholder=placeholder
-												  @blur="closeEmoji(1)"
 												  v-model="textareaMap[item.id]">
 												</el-input>
 
@@ -161,7 +159,6 @@
 												  type="textarea"
 												  :autosize="{ minRows: minRows, maxRows: maxRows}"
 												  :placeholder=placeholder
-												  @blur="closeEmoji(2)"
 												  v-model="textareaMap[ritem.id]">
 												</el-input>
 

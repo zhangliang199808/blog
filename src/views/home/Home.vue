@@ -22,8 +22,10 @@
 
           <el-carousel >
             <el-carousel-item v-for="(item,index) in imglist" :key="index" indicator-position="none">
-              <img @click="goUrl(item)" :src="item.banner_image_url" :alt="item.banner_title" style="width:100%;height:100%"/>
-              <!-- <div class="flex-center" style="position: absolute; bottom: 0;left: 0;width: 100%;">{{item.banner_title}}</div> -->
+              <div style="width: 100%; height: 100%;position: relative;">
+                <img @click="goUrl(item)" :src="item.banner_image_url" :alt="item.banner_title" style="width:100%;height:100%"/>
+                <div class="flex-start flex-align-center banner_title">{{item.banner_title}}</div>
+              </div>
             </el-carousel-item>
           </el-carousel>
         <el-card class="box-card article-list-card">
@@ -223,6 +225,16 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+.banner_title {
+  position: absolute; 
+  bottom: 0;
+  left: 0;
+  width: 100%; 
+  height: 40px;
+  padding-left: 10px;
+  background: rgba(0,0,0,0.3);
+  color: #FFF;
+}
 .home {
   box-size:border-box
   .article-list-card {
