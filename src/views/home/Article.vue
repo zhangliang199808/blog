@@ -65,7 +65,7 @@
     </el-card>
     <el-card class="box-card">
       <comment
-        :commentNum="commentList.length"
+        :commentNum="total_comment"
         :avatar="userInfo.photo_url || ''"
         :commentList="commentList"
         @doSend="sendContent"
@@ -85,7 +85,7 @@ import UserInfoShowCard from "./components/UserInfoShowCard";
 import ArticleComment from "./components/ArticleComment";
 import ArticleCommentAdd from "./components/ArticleCommentAdd";
 import { apiArticleDetail, apiDetail, apiComment, abc } from "@/api/article.js";
-import comment from "hbl-comment";
+import comment from "./components/comment/Comment";
 import moment from 'moment'
 export default {
   name: "Article",
@@ -104,6 +104,7 @@ export default {
     return {
       articleId: null,
       articleObj: {},
+      total_comment: 0,// 评论个数
       article: {
         articleId: null,
         articleTitle: null,
@@ -146,7 +147,6 @@ export default {
     sendContent(text) {
       let obj = {};
       obj.id = this.commentList.length + 200;
-      console.log(this.$store.state,'llll')
       obj.commentUser = this.$store.state.User.userInfo.username;
       obj.content = text;
       obj.createDate = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
@@ -164,6 +164,7 @@ export default {
       data.article_id = this.$route.params.articleId;
       apiComment(data).then((res) => {
         if (res.code == 200) {
+          this.total_comment = res.total_comment || 0
           let list = res.data;
           list = list.map((item) => {
             let childList = item.first_comment.second_comment;
@@ -174,9 +175,9 @@ export default {
                   nickName: e.second_comment_username,
                   avatar: e.second_comment_head_photo,
                 }, // 评论用户
-                targetUser: { nickName: e.second_comment_username }, // 被评论用户
+                targetUser: { nickName: e.comment_line }, // 被评论用户
                 content: e.second_comment_content, // 评论内容
-                createDate: "2020-11-11", // 评论时间
+                createDate: e.second_comment_publication_date, // 评论时间
               };
             });
             return {
@@ -187,7 +188,7 @@ export default {
                }, // 评论用户
               targetUser: "admin", // 被评论用户
               content: item.first_comment.comment_content, // 评论内容
-              createDate: "2020-11-02", // 评论时间
+              createDate: item.first_comment.comment_publication_date, // 评论时间
               childrenList: childList, // 子评论列表
             };
           });

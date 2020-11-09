@@ -44,7 +44,7 @@
           <el-dropdown-menu slot="dropdown" style="width: 150px;">
             <template v-if="isLogin">
               <el-dropdown-item icon="el-icon-user" command="goUserInfo">我的资料</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-setting" command="goUserInfoSetting">个人设置</el-dropdown-item>
+              <!-- <el-dropdown-item icon="el-icon-setting" command="goUserInfoSetting">个人设置</el-dropdown-item> -->
               <el-dropdown-item v-if="userInfo.userOp === 1" divided icon="el-icon-s-home" command="admin">后台</el-dropdown-item>
               <el-dropdown-item divided icon="el-icon-switch-button" command="logout">登出</el-dropdown-item>
             </template>

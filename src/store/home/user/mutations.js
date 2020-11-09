@@ -9,6 +9,7 @@ export default {
     localStorage.setItem("userInfo",JSON.stringify(params));
     state.isLogin = true;
     state.userInfo = params;
+    location. reload();
   },
 
   //注销
