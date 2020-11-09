@@ -21,9 +21,9 @@
         </div>
 
           <el-carousel >
-            <el-carousel-item v-for="(item,index) in imglist" :key="index">
-              <!-- <h3 class="small">{{ item }}</h3> -->
+            <el-carousel-item v-for="(item,index) in imglist" :key="index" indicator-position="none">
               <img @click="goUrl(item)" :src="item.banner_image_url" :alt="item.banner_title" style="width:100%;height:100%"/>
+              <!-- <div class="flex-center" style="position: absolute; bottom: 0;left: 0;width: 100%;">{{item.banner_title}}</div> -->
             </el-carousel-item>
           </el-carousel>
         <el-card class="box-card article-list-card">

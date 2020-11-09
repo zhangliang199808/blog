@@ -11,7 +11,7 @@
 				  type="textarea"
 				  :autosize="{ minRows: minRows, maxRows: maxRows}"
 				  :placeholder=placeholder
-				  @blur="closeEmoji"
+				  @blur="closeEmoji(0)"
 				  v-model="textareaMap[0]">
 				</el-input>
 
@@ -86,7 +86,7 @@
 												  type="textarea"
 												  :autosize="{ minRows: minRows, maxRows: maxRows}"
 												  :placeholder=placeholder
-												  @blur="closeEmoji"
+												  @blur="closeEmoji(1)"
 												  v-model="textareaMap[item.id]">
 												</el-input>
 
@@ -161,7 +161,7 @@
 												  type="textarea"
 												  :autosize="{ minRows: minRows, maxRows: maxRows}"
 												  :placeholder=placeholder
-												  @blur="closeEmoji"
+												  @blur="closeEmoji(2)"
 												  v-model="textareaMap[ritem.id]">
 												</el-input>
 
@@ -368,16 +368,14 @@
 			avatar,
 		},
 		    methods: { //事件处理器
-				closeEmoji() {
+				closeEmoji(index) {
 					// 关闭emoji 表情
-					this.$set(this.pBodyMap,0,true)
-					this.$set(this.pBodyMap,1,true)
-					this.$set(this.pBodyMap,2,true)
-					this.$set(this.pBodyMap,3,true)
+					// console.log(1111)
+  					this.$set(this.pBodyMap,index,true)
 				},
 		    	showButton(index){
 		    		//this.showFlag = true;
-		    		console.log(index+"index");
+		    		// console.log(index+"index");
 		    		this.$set(this.buttonMap,index,true)
 		    	},
 		    	cancel(index){
@@ -435,7 +433,7 @@
 			},
 			
   			pBodyStatus(index){
-  				this.$set(this.pBodyMap,index,!this.pBodyMap[index])
+  				this.$set(this.pBodyMap,index,false)
   			},
 	         
         },

@@ -146,11 +146,11 @@ export default {
   methods: {
     sendContent(text) {
       let obj = {};
-      obj.id = this.commentList.length + 200;
-      obj.commentUser = this.$store.state.User.userInfo.username;
-      obj.content = text;
-      obj.createDate = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
-      this.commentList.unshift(obj);
+      // obj.id = this.commentList.length + 200;
+      // obj.commentUser = this.$store.state.User.userInfo.username;
+      // obj.content = text;
+      // obj.createDate = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+      // this.commentList.unshift(obj);
       this.sendComment(text);
     },
     twoSendContent(text, commentId, fatherId) {
