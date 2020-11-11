@@ -3,14 +3,8 @@ import router from '../router/index'
 import store from '../store/index'
 import Vue from 'vue'
 
-let base_url = ''
-if (process.env.NODE_ENV === "development"){
-    base_url = '/api'
-} else {
-    base_url = 'http://47.101.206.36:9000/api'
-}
 const service = axios.create({
-    baseURL: base_url,
+    baseURL: process.env.VUE_APP_API_URL,
     timeout: 6000
 });
 localStorage.setItem('baseUrl','http://47.101.206.36:9000')
