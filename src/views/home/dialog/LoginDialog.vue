@@ -80,8 +80,10 @@ export default {
               this.$store.commit('User/LOGIN',res.data);
               localStorage.setItem('token',res.data.token)
               this.close();
+            } else {
+              this.$message.error(res.message)
             }
-          });
+          })
         }
       });
     },
