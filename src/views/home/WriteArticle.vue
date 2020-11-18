@@ -15,9 +15,12 @@
           <el-radio v-for="(item,index) in articleTypeList" :key="index" v-model="radioIndex" :label="index">{{item.category_name}}</el-radio>
         </div>
       </div>
-
     </div>
-    <mavon-editor class="editor margin-top-20" ref="md" @imgAdd="radioImgAdd"></mavon-editor>
+    <!-- 富文本 -->
+    <div class="article_card margin-top-20">
+      <div id="container"></div>
+    </div>
+    <!-- <mavon-editor class="editor margin-top-20" ref="md" @imgAdd="radioImgAdd"></mavon-editor> -->
     <div class="flex-center flex-align-center margin-top-20">
       <el-button type="primary" @click="release">发布</el-button>
     </div>
@@ -25,6 +28,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import E from "wangeditor";
   import {apiCreatArticle,apiArticleType,apiUploadImgOrFile} from "@/api/article.js"
   export default {
     name: "WriteArticle",
@@ -39,6 +43,31 @@
       }
     },
     mounted(){
+      // 富文本部分start
+      const editor = new E('#container') // 传入两个元素
+      editor.config.height = 500
+      editor.config.zIndex = 1500
+      editor.create();
+      editor.config.customUploadImg = (resultFiles, insertImgFn) => {
+          // resultFiles 是 input 中选中的文件列表
+          // insertImgFn 是获取图片 url 后，插入到编辑器的方法
+          let formdata = new FormData();
+          formdata.append('upload_file', resultFiles[0]);
+          apiUploadImgOrFile(formdata)
+            .then(res =>{
+              if (res.code == 200) {
+                let url = 'http://' + res.image_url
+                this.vm.$img2Url(pos, url);
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          // 上传图片，返回结果，将图片插入到编辑器中
+          insertImgFn(imgUrl)
+      }
+
+
+      // 富文本部分end
       this.getArticleTypeList()
       this.vm = this.$refs.md
     },
