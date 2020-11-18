@@ -115,7 +115,6 @@
        * @param item
        */
       goNotify(item){
-        console.log('goNotify',item);
         //判断是否已读
         if (item.isRead === 0){
           this.readNotify(item.userNotifyId);

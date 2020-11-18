@@ -27,8 +27,6 @@
             this.animate = "in";
           },300);
         })
-
-        console.log("mouseenter");
       },
       mouseleave() {
         this.animate = "out";
@@ -37,7 +35,6 @@
             this.visible = false;
           },300);
         })
-        console.log("mouseleave");
       },
     },
   }

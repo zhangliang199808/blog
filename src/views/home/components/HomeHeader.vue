@@ -94,7 +94,6 @@
     },
     watch:{
       '$route.fullPath'(){
-        console.log("watch route.fullPath");
         this.checkLogin();
       }
     },

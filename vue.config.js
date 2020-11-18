@@ -19,7 +19,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api':{
-          target: 'http://47.101.206.36:9000',
+          target: 'http://47.101.206.36:9020',
           changeOrigin: true,
           pathRewrite:{  // 路径重写，
             '^/api': ''  // 替换target中的请求地址，也就是说以后你在请求http://api.douban.com/v2/XXXXX这个地址的时候直接写成/api即可。

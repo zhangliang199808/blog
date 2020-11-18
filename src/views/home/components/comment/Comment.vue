@@ -367,12 +367,9 @@
 		    methods: { //事件处理器
 				closeEmoji(index) {
 					// 关闭emoji 表情
-					// console.log(1111)
   					this.$set(this.pBodyMap,index,true)
 				},
 		    	showButton(index){
-		    		//this.showFlag = true;
-		    		// console.log(index+"index");
 		    		this.$set(this.buttonMap,index,true)
 		    	},
 		    	cancel(index){
@@ -380,12 +377,9 @@
 		    		if(index!==0){
 		    			this.$set(this.replyMap,index,false)
 		    		}
-		    		// console.log(index+"index");
-		    		//this.showFlag = false;
 		    	},
 	          doSend(){
 				this.pBodyStatus(0)
-	          	//console.log("====="+this.textarea);
 	          	this.$emit("doSend",this.textareaMap[0]);
 	          	this.$set(this.textareaMap,0,'')
 	          },
