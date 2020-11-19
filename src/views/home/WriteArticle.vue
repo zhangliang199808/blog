@@ -20,61 +20,81 @@
     <div class="article_card margin-top-20">
       <div id="container"></div>
     </div>
-    <!-- <mavon-editor class="editor margin-top-20" ref="md" @imgAdd="radioImgAdd"></mavon-editor> -->
-    <div class="flex-center flex-align-center margin-top-20">
-      <el-button type="primary" @click="release">发布</el-button>
+    <div class="article_card flex-between margin-top-20">
+      <el-upload
+        action="https://jsonplaceholder.typicode.com/posts/"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        :on-exceed="handleExceed"
+        :http-request="uploadFile"
+        :file-list="fileList">
+        <el-button size="small" type="primary">点击上传文件</el-button>
+        <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+      </el-upload>
+      <div class="flex-center flex-align-center margin-top-20">
+        <el-button type="primary" @click="release">发布</el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import E from "wangeditor";
-  import {apiCreatArticle,apiArticleType,apiUploadImgOrFile} from "@/api/article.js"
+  import {apiCreatArticle,apiArticleType,apiUploadImgOrFile,apiUploadArticleFile} from "@/api/article.js"
   export default {
     name: "WriteArticle",
     data() {
       return {
         articleId: null,
+        editor:null,// 富文本实例
         title: '',
         textarea: '', // 简介
         articleTypeList: [],
         radioIndex: 0, // 分类选中索引
-        vm: null , // 文本编译器对象
+        fileList: [], // 文件列表
+        fileLinkList: [],// 文件链接
+        delectFileIndex: 0 // 要删除的文件索引
       }
     },
     mounted(){
       // 富文本部分start
       const editor = new E('#container') // 传入两个元素
       editor.config.height = 500
-      editor.config.zIndex = 1500
+      editor.config.zIndex = 1499
       editor.create();
       editor.config.customUploadImg = (resultFiles, insertImgFn) => {
           // resultFiles 是 input 中选中的文件列表
           // insertImgFn 是获取图片 url 后，插入到编辑器的方法
           let formdata = new FormData();
-          formdata.append('upload_file', resultFiles[0]);
+          formdata.append('upload_image', resultFiles[0]);
           apiUploadImgOrFile(formdata)
             .then(res =>{
               if (res.code == 200) {
-                let url = 'http://' + res.image_url
-                this.vm.$img2Url(pos, url);
+                let url = res.image_url
+                // 上传图片，返回结果，将图片插入到编辑器中
+                insertImgFn(url)
               } else {
                 this.$message.error(res.message)
               }
             })
-          // 上传图片，返回结果，将图片插入到编辑器中
-          insertImgFn(imgUrl)
       }
-
-
+      this.editor = editor
       // 富文本部分end
       this.getArticleTypeList()
-      this.vm = this.$refs.md
     },
     methods: {
       release() {
+        if (this.fileLinkList.length > 0) {
+          let str = '<p>文件链接：</p>'
+          this.fileList.forEach((item,index) => {
+            str += `<p><a href="${item}">${this.fileList.name}</a></p>`
+          })
+          this.editor.txt.append(str)
+        }
+
         let id = this.articleTypeList[this.radioIndex].category_id
-        let content = this.vm.d_render
+        let content = this.editor.txt.html();
         let data = new FormData()
         data.append('article_title',this.title)
         data.append('article_excerpt',this.textarea)
@@ -89,27 +109,46 @@
             }
           })
       },
-      // 绑定@imgAdd event
-      radioImgAdd(pos, $file){
-        console.log(pos,$file,'kankan')
-          // 第一步.将图片上传到服务器.
-         let formdata = new FormData();
-         formdata.append('upload_file', $file);
-         apiUploadImgOrFile(formdata)
-          .then(res =>{
-            if (res.code == 200) {
-              let url = 'http://' + res.image_url
-              this.vm.$img2Url(pos, url);
-            } else {
-              this.$message.error(res.message)
-            }
-          })
-      },
       getArticleTypeList() {
         apiArticleType()
           .then(res => {
             if (res.code == 200) {
               this.articleTypeList = res.data
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+      },
+      // 上传文件
+      handleRemove(file, fileList) {
+        this.fileLinkList.splice(this.delectFileIndex)
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        let list = this.fileList
+        list.forEach((item,index) => {
+          if (item.uid == file.uid) {
+            this.delectFileIndex = index
+          }
+        })
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      uploadFile(e) {
+        let file = e.file
+        let formdata = new FormData();
+        formdata.append('upload_file', file);
+        apiUploadArticleFile(formdata)
+          .then(res =>{
+            if (res.code == 200) {
+              let url = 'http://' + res.file_url
+              this.fileList.push(e.file)
+              this.fileLinkList.push(url)
+              this.$message.success(res.message)
             } else {
               this.$message.error(res.message)
             }

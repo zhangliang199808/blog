@@ -5,7 +5,7 @@ import Vue from 'vue'
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
-    timeout: 6000
+    timeout: 30000
 });
 localStorage.setItem('baseUrl','http://47.101.206.36:9000')
 const token = localStorage.getItem('token')

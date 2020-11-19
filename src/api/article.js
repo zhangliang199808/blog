@@ -18,13 +18,22 @@ export function apiArticleType(data) {
     })
 }
 
-// 上传文章图片或文件
+// 上传文章图片
 export function apiUploadImgOrFile(data) {
     return request({
-      url: '/upload/file/',
+      url: '/upload/image/',
       method: 'post',
       data
     })
+}
+
+// 上传文章文件
+export function apiUploadArticleFile(data) {
+  return request({
+    url: '/upload/file/',
+    method: 'post',
+    data
+  })
 }
 
 // 获取文章详情
