@@ -2,7 +2,7 @@
   <div class="home-menu">
     <div class="logo-box">
       <img src="@/assets/images/logo.png" alt="">
-      <span class="title">美恒论坛</span>
+      <span class="title">美恒科技论坛</span>
     </div>
     <ul class="menu-box">
       <li @click="goPath('/')">首页</li>

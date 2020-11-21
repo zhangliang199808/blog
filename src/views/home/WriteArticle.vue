@@ -85,14 +85,16 @@
     },
     methods: {
       release() {
+        console.log(this.fileLinkList,this.fileList,'kkkk')
         if (this.fileLinkList.length > 0) {
-          let str = '<p>文件链接：</p>'
-          this.fileList.forEach((item,index) => {
-            str += `<p><a href="${item}">${this.fileList.name}</a></p>`
+          let str = '<div style="width: 100%;border: 2px solid #ccc;border-radius: 5px;padding: 10px;margin-top: 10px;box-sizing: border-box;"><p>文件链接：</p>'
+          this.fileLinkList.forEach((item,index) => {
+            str += `<p><a style="color: blue;" href="${item}">${this.fileList[index].name}</a></p>`
           })
+          str += '</div>'
           this.editor.txt.append(str)
         }
-
+        // return false
         let id = this.articleTypeList[this.radioIndex].category_id
         let content = this.editor.txt.html();
         let data = new FormData()
@@ -103,6 +105,12 @@
         apiCreatArticle(data)
           .then(res => {
             if (res.code == 200) {
+              this.title = ''
+              this.textarea = ''
+              this.radioIndex = 0
+              this.fileList = []
+              this.fileLinkList = []
+              this.editor.txt.clear()
               this.$message.success(res.message)
             } else {
               this.$message.error(res.message)

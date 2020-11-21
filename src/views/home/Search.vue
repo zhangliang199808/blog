@@ -39,9 +39,9 @@
       }
     },
     watch:{
-      // "$route.params"(){
-      //   this.list();
-      // }
+      "$route.params"(){
+        this.list();
+      }
     },
     mounted(){
       this.list();
