@@ -24,6 +24,7 @@
   import HomeLayout from "./components/HomeLayout";
   import Page from "../../components/Page";
   import Hitokoto from "../../components/Hitokoto";
+  import {apiAritcleSearch} from "@/api/article"
   export default {
     name: "Search",
     components: {Hitokoto, Page, HomeLayout, HomeRight, TabComponent, ArticleCard, UserInfoCard},
@@ -38,9 +39,9 @@
       }
     },
     watch:{
-      "$route.params"(){
-        this.list();
-      }
+      // "$route.params"(){
+      //   this.list();
+      // }
     },
     mounted(){
       this.list();
@@ -48,13 +49,26 @@
     methods: {
       list(){
         let params = this.$refs.page.getPage();
+        console.log(params,this.searchWord,'搜索')
         if (this.searchWord){
           params.search = this.searchWord;
-        }
-        this.$store.dispatch('Article/searchArticles',params).then(res=>{
-          this.datas = res.data.records;
-          this.$refs.page.setPage(res.data);
-        })
+        };
+        let data = {}
+        data.q = this.searchWord + ''
+        data.page = params.pageCurrent + ''
+        apiAritcleSearch(data)
+          .then(res => {
+            if (res.code == 200) {
+              this.datas = res.data
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+
+        // this.$store.dispatch('Article/searchArticles',params).then(res=>{
+        //   this.datas = res.data.records;
+        //   this.$refs.page.setPage(res.data);
+        // })
       },
     },
   }

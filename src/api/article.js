@@ -73,3 +73,13 @@ export function abc(data) {
      data
   })
 }
+
+
+// 文章搜索
+export function apiAritcleSearch(data) {
+  return request({
+    url: '/search/',
+    method: 'get',
+    params: data
+  })
+}

@@ -102,8 +102,6 @@
     },
     methods: {
       showInputSearch() {
-        this.$message('功能暂未实现')
-        return false
         this.isSearchAnimation = true;
         this.isShowSearch = true;
         this.$nextTick(()=>{
